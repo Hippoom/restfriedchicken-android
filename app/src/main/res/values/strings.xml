@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Rest Fried Chicken</string>
+
+    <string name="welcome">Welcome!</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
