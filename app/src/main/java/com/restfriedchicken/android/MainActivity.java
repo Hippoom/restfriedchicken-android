@@ -1,4 +1,4 @@
-package com.example.twer.myhelloworld;
+package com.restfriedchicken.android;
 
 import android.app.Activity;
 import android.os.Bundle;

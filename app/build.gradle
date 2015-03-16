@@ -16,12 +16,6 @@ android {
         exclude 'LICENSE.txt'
     }
 
-    sourceSets {
-        androidTest {
-            assets.srcDirs = ['src/androidTest/assets']
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -32,5 +26,6 @@ android {
 
 dependencies {
 
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.3.1'
 
 }
