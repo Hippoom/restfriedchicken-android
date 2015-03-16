@@ -4,4 +4,6 @@
     <string name="welcome">Welcome!</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="my_orders">My Orders</string>
 </resources>

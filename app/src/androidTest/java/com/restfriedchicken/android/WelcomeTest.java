@@ -19,9 +19,11 @@ public class WelcomeTest extends
     }
 
     public void testWelcomeIsShown() throws Exception {
-
         assertTrue(solo.searchText("Welcome!"));
+    }
 
+    public void testMyOrdersLinkIsShown() throws Exception {
+        assertTrue(solo.searchButton("My Orders"));
     }
 
     @Override
