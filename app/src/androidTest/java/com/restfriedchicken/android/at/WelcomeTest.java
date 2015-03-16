@@ -1,7 +1,8 @@
-package com.restfriedchicken.android;
+package com.restfriedchicken.android.at;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.restfriedchicken.android.MainActivity;
 import com.robotium.solo.Solo;
 
 
