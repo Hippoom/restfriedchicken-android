@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+
+
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -46,7 +48,9 @@ task extractApk(type: Copy) {
 task configApk(type: Copy, dependsOn: extractApk) {
     outputs.upToDateWhen { false }
 
-    def config = file("config/dev/config.properties")
+    def env = System.getenv('ENV')
+
+    def config = file("config/${env}/config.properties")
     def outputDir = file("${buildDir}/outputs/apk/under-config/assets/")
 
     from config
@@ -66,7 +70,7 @@ task repackApk(type: Zip, dependsOn: removeUnconfiguredApk) {
     destinationDir = file("${buildDir}/outputs/apk/")
     from file("${buildDir}/outputs/apk/under-config")
 }
-
-gradle.projectsEvaluated {
-    extractApk.dependsOn(assembleDebug)
-}
+//
+//gradle.projectsEvaluated {
+//    extractApk.dependsOn(assembleDebug)
+//}
