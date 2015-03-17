@@ -45,6 +45,7 @@ task extractApk(type: Copy) {
     into outputDir
 }
 
+//should add failure check if config.properties not found
 task configApk(type: Copy, dependsOn: extractApk) {
     outputs.upToDateWhen { false }
 
@@ -70,7 +71,49 @@ task repackApk(type: Zip, dependsOn: removeUnconfiguredApk) {
     destinationDir = file("${buildDir}/outputs/apk/")
     from file("${buildDir}/outputs/apk/under-config")
 }
-//
-//gradle.projectsEvaluated {
-//    extractApk.dependsOn(assembleDebug)
-//}
+
+task resignApk(type: Exec, dependsOn: repackApk) {
+    //workingDir "${projectDir}"
+    executable "sh"
+    args "-xe", "${projectDir}/scripts/resign_apk.sh", "${buildDir}/outputs/apk/app-debug-unsigned.apk"
+}
+
+task alignApk(type: Exec, dependsOn: resignApk) {
+    executable "zipalign"
+    args "-v", "4", "${buildDir}/outputs/apk/app-debug-unsigned.apk", "${buildDir}/outputs/apk/app-debug.apk"
+}
+
+task extractTestApk(type: Copy) {
+    def zipFile = file("${buildDir}/outputs/apk/app-debug-androidTest-unaligned.apk")
+    def outputDir = file("${buildDir}/outputs/apk/app-debug-androidTest-unaligned")
+
+    from zipTree(zipFile)
+    into outputDir
+}
+
+task removeOldSignFromTestApk(type: Delete, dependsOn: extractTestApk) {
+    delete file("${buildDir}/outputs/apk/app-debug-androidTest-unaligned/META-INF/")
+}
+
+task removeTestApk(type: Delete, dependsOn: removeOldSignFromTestApk) {
+    delete file("${buildDir}/outputs/apk/app-debug-androidTest-unaligned.apk")
+}
+
+task repackTestApk(type: Zip, dependsOn: removeTestApk) {
+    archiveName = "app-debug-androidTest-unaligned.apk"
+    destinationDir = file("${buildDir}/outputs/apk/")
+    from file("${buildDir}/outputs/apk/app-debug-androidTest-unaligned")
+}
+
+task resignTestApk(type: Exec, dependsOn: repackTestApk) {
+    executable "sh"
+    args "-xe", "${projectDir}/scripts/resign_apk.sh", "${buildDir}/outputs/apk/app-debug-androidTest-unaligned.apk"
+}
+
+gradle.projectsEvaluated {
+    extractApk.dependsOn(assembleDebugAndroidTest) //app-debug.apk was replaced after assembling test
+
+    extractTestApk.dependsOn(alignApk) //test apk should have the same signature as the target apk
+
+    connectedAndroidTest.dependsOn(resignTestApk)
+}
