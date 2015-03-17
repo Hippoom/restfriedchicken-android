@@ -28,11 +28,6 @@ public class DisplayMyOrdersActivity extends Activity {
         myOrdersView.setEmptyView(findViewById(android.R.id.empty));
     }
 
-    private String[] loadMyOrders() {
-        return new String[]{"tracking_id_1", "tracking_id_2", "tracking_id_3"};
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -55,30 +50,22 @@ public class DisplayMyOrdersActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        new HttpRequestTask(this).execute();
+        new GetMyOrdersTask(this).execute();
     }
 
-
-    private class HttpRequestTask extends AsyncTask<Void, Void, MyOrdersRepresentation> {
+    private class GetMyOrdersTask extends AsyncTask<Void, Void, MyOrdersRepresentation> {
 
         private Context context;
 
-        private HttpRequestTask(Context context) {
+        private GetMyOrdersTask(Context context) {
             this.context = context;
         }
 
         @Override
         protected MyOrdersRepresentation doInBackground(Void... params) {
-            Log.i("DisplayMyOrdersActivity", "Begin to load orders for the customer");
             try {
                 final String url = "http://192.168.80.145:12306/customer/1/orders";
-                ObjectMapper objectMapper = new ObjectMapper();
-                objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
-                MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-                converter.setObjectMapper(objectMapper);
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(converter);
-                MyOrdersRepresentation orders = restTemplate.getForObject(url, MyOrdersRepresentation.class);
+                MyOrdersRepresentation orders = getRestTemplate(jsonMessageConverter(objectMapper())).getForObject(url, MyOrdersRepresentation.class);
                 return orders;
             } catch (Exception e) {
                 Log.e("DisplayMyOrdersActivity", e.getMessage(), e);
@@ -92,6 +79,24 @@ public class DisplayMyOrdersActivity extends Activity {
                     android.R.layout.simple_list_item_1, orders.getOrders());
 
             myOrdersView.setAdapter(adapter);
+        }
+
+        private RestTemplate getRestTemplate(MappingJackson2HttpMessageConverter converter) {
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(converter);
+            return restTemplate;
+        }
+
+        private MappingJackson2HttpMessageConverter jsonMessageConverter(ObjectMapper objectMapper) {
+            MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+            converter.setObjectMapper(objectMapper);
+            return converter;
+        }
+
+        private ObjectMapper objectMapper() {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+            return objectMapper;
         }
 
     }
