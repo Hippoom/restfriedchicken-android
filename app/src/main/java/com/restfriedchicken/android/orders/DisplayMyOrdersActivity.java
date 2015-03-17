@@ -1,20 +1,21 @@
 package com.restfriedchicken.android.orders;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restfriedchicken.android.R;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 public class DisplayMyOrdersActivity extends Activity {
     private ListView myOrdersView;
@@ -25,15 +26,10 @@ public class DisplayMyOrdersActivity extends Activity {
         setContentView(R.layout.activity_display_my_orders);
         myOrdersView = (ListView) findViewById(android.R.id.list);
         myOrdersView.setEmptyView(findViewById(android.R.id.empty));
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, loadMyOrders());
-
-        myOrdersView.setAdapter(adapter);
     }
 
     private String[] loadMyOrders() {
-        return new String[] {"tracking_id_1", "tracking_id_2", "tracking_id_3"};
+        return new String[]{"tracking_id_1", "tracking_id_2", "tracking_id_3"};
     }
 
 
@@ -56,4 +52,47 @@ public class DisplayMyOrdersActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        new HttpRequestTask(this).execute();
+    }
+
+
+    private class HttpRequestTask extends AsyncTask<Void, Void, MyOrdersRepresentation> {
+
+        private Context context;
+
+        private HttpRequestTask(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected MyOrdersRepresentation doInBackground(Void... params) {
+            Log.i("DisplayMyOrdersActivity", "Begin to load orders for the customer");
+            try {
+                final String url = "http://192.168.80.145:12306/customer/1/orders";
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+                MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+                converter.setObjectMapper(objectMapper);
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(converter);
+                MyOrdersRepresentation orders = restTemplate.getForObject(url, MyOrdersRepresentation.class);
+                return orders;
+            } catch (Exception e) {
+                Log.e("DisplayMyOrdersActivity", e.getMessage(), e);
+            }
+            return new MyOrdersRepresentation();
+        }
+
+        @Override
+        protected void onPostExecute(MyOrdersRepresentation orders) {
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                    android.R.layout.simple_list_item_1, orders.getOrders());
+
+            myOrdersView.setAdapter(adapter);
+        }
+
+    }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.restfriedchicken.android.MainActivity;
+
 import com.robotium.solo.Solo;
 
 
@@ -11,8 +12,6 @@ public class MyOrdersTest extends
         ActivityInstrumentationTestCase2<MainActivity> {
 
     private Solo solo;
-
-    private Solo myOrders;
 
     public MyOrdersTest() {
         super(MainActivity.class);
@@ -25,6 +24,8 @@ public class MyOrdersTest extends
     public void testMyOrdersAreShown() throws Exception {
 
         solo.clickOnButton("My Orders");
+
+        solo.sleep(2);// wait for interaction with backend
 
         assertMyOrdersAreShown();
     }

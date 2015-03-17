@@ -1,0 +1,18 @@
+[
+  {
+    "request" : {
+      "method" : "get",
+      "uri": "/customer/1/orders"
+    },
+    "response" : {
+      "json": {
+          "orders" : [
+            "tracking_id_1",
+            "tracking_id_2",
+            "tracking_id_3"
+          ],
+          "_links" : []
+      }
+    }
+  }
+]
