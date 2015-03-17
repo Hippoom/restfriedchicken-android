@@ -1,9 +1,13 @@
 package com.restfriedchicken.android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.restfriedchicken.android.orders.DisplayMyOrdersActivity;
 
 
 public class MainActivity extends Activity {
@@ -35,5 +39,11 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /** Called when the user clicks the My Orders button */
+    public void redirectToMyOrders(View view) {
+        Intent intent = new Intent(this, DisplayMyOrdersActivity.class);
+        startActivity(intent);
     }
 }
