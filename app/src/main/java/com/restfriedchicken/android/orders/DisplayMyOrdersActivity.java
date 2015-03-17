@@ -1,9 +1,11 @@
 package com.restfriedchicken.android.orders;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import android.widget.ListView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restfriedchicken.android.R;
+import com.restfriedchicken.android.RestfriedChickenApp;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -55,16 +58,16 @@ public class DisplayMyOrdersActivity extends Activity {
 
     private class GetMyOrdersTask extends AsyncTask<Void, Void, MyOrdersRepresentation> {
 
-        private Context context;
+        private Activity activity;
 
-        private GetMyOrdersTask(Context context) {
-            this.context = context;
+        private GetMyOrdersTask(Activity context) {
+            this.activity = context;
         }
 
         @Override
         protected MyOrdersRepresentation doInBackground(Void... params) {
             try {
-                final String url = "http://192.168.80.145:12306/customer/1/orders";
+                final String url = customerServiceBaseUrl() + "/1/orders";
                 MyOrdersRepresentation orders = getRestTemplate(jsonMessageConverter(objectMapper())).getForObject(url, MyOrdersRepresentation.class);
                 return orders;
             } catch (Exception e) {
@@ -73,9 +76,14 @@ public class DisplayMyOrdersActivity extends Activity {
             return new MyOrdersRepresentation();
         }
 
+        private String customerServiceBaseUrl() {
+            RestfriedChickenApp application = (RestfriedChickenApp) activity.getApplication();
+            return application.customerServiceBaseUrl();
+        }
+
         @Override
         protected void onPostExecute(MyOrdersRepresentation orders) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
                     android.R.layout.simple_list_item_1, orders.getOrders());
 
             myOrdersView.setAdapter(adapter);

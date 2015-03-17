@@ -34,3 +34,39 @@ dependencies {
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.3.1'
 
 }
+
+task extractApk(type: Copy) {
+    def zipFile = file("${buildDir}/outputs/apk/app-debug.apk")
+    def outputDir = file("${buildDir}/outputs/apk/under-config")
+
+    from zipTree(zipFile)
+    into outputDir
+}
+
+task configApk(type: Copy, dependsOn: extractApk) {
+    outputs.upToDateWhen { false }
+
+    def config = file("config/dev/config.properties")
+    def outputDir = file("${buildDir}/outputs/apk/under-config/assets/")
+
+    from config
+    into outputDir
+}
+
+task removeOldSign(type: Delete, dependsOn: configApk) {
+    delete file("${buildDir}/outputs/apk/under-config/META-INF/")
+}
+
+task removeUnconfiguredApk(type: Delete, dependsOn: removeOldSign) {
+    delete file("${buildDir}/outputs/apk/app-debug.apk")
+}
+
+task repackApk(type: Zip, dependsOn: removeUnconfiguredApk) {
+    archiveName = "app-debug-unsigned.apk"
+    destinationDir = file("${buildDir}/outputs/apk/")
+    from file("${buildDir}/outputs/apk/under-config")
+}
+
+gradle.projectsEvaluated {
+    extractApk.dependsOn(assembleDebug)
+}

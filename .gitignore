@@ -29,3 +29,10 @@ proguard/
 # idea files
 .idea/
 *.iml
+
+# config files
+app/src/main/assets/config.properties
+
+# mac
+**/.DS_Store
+

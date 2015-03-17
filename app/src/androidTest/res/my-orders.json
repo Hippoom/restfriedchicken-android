@@ -2,7 +2,7 @@
   {
     "request" : {
       "method" : "get",
-      "uri": "/customer/1/orders"
+      "uri": "/customers/1/orders"
     },
     "response" : {
       "json": {
