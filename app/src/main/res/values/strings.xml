@@ -9,4 +9,6 @@
 
     <string name="title_activity_display_my_orders">My Orders</string>
 
+    <string name="button_make_payment">Pay</string>
+
 </resources>

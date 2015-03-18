@@ -11,33 +11,39 @@ import com.robotium.solo.Solo;
 public class MyOrdersTest extends
         ActivityInstrumentationTestCase2<MainActivity> {
 
-    private Solo solo;
+    private OrderFixture orderFixture;
 
     public MyOrdersTest() {
         super(MainActivity.class);
     }
 
     public void setUp() throws Exception {
-        solo = new Solo(getInstrumentation(), getActivity());
+        orderFixture = new OrderFixture(new Solo(getInstrumentation(), getActivity()));
     }
 
     public void testMyOrdersAreShown() throws Exception {
 
-        solo.clickOnButton("My Orders");
-
-        solo.sleep(2);// wait for interaction with backend
+        redirectToMyOrders();
 
         assertMyOrdersAreShown();
     }
 
+    private void redirectToMyOrders() {
+        orderFixture.redirectToMyOrders();
+    }
+
     private void assertMyOrdersAreShown() {
-        assertTrue(solo.searchText("tracking_id_1"));
-        assertTrue(solo.searchText("tracking_id_2"));
-        assertTrue(solo.searchText("tracking_id_3"));
+        assertTrue(getSolo().searchText("tracking_id_1"));
+        assertTrue(getSolo().searchText("tracking_id_2"));
+        assertTrue(getSolo().searchText("tracking_id_3"));
     }
 
     @Override
     public void tearDown() throws Exception {
-        solo.finishOpenedActivities();
+        getSolo().finishOpenedActivities();
+    }
+
+    private Solo getSolo() {
+        return orderFixture.getSolo();
     }
 }

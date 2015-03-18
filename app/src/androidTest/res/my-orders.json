@@ -7,9 +7,21 @@
     "response" : {
       "json": {
           "orders" : [
-            "tracking_id_1",
-            "tracking_id_2",
-            "tracking_id_3"
+            {
+              "tracking_id" : "tracking_id_1",
+              "_links" : [
+                {
+                  "rel" : "payment",
+                  "href" : ""
+                }
+              ]
+            },
+            {
+              "tracking_id" : "tracking_id_2"
+            },
+            {
+              "tracking_id" : "tracking_id_3"
+            }
           ],
           "_links" : []
       }

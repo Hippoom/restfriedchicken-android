@@ -1,19 +1,16 @@
 package com.restfriedchicken.android.orders;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MyOrdersRepresentation {
 
-    private List<String> orders = new ArrayList<>();
+    private List<MyOrderRepresentation> orders = new ArrayList<>();
 
-    private List<String> _links = new ArrayList<>();
-
-    public List<String> getOrders() {
+    public List<MyOrderRepresentation> getOrders() {
         return orders;
-    }
-
-    public List<String> get_links() {
-        return _links;
     }
 }

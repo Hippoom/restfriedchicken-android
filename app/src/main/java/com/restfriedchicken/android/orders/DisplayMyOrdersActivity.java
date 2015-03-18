@@ -1,16 +1,21 @@
 package com.restfriedchicken.android.orders;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +24,8 @@ import com.restfriedchicken.android.RestfriedChickenApp;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 public class DisplayMyOrdersActivity extends Activity {
     private ListView myOrdersView;
@@ -29,6 +36,12 @@ public class DisplayMyOrdersActivity extends Activity {
         setContentView(R.layout.activity_display_my_orders);
         myOrdersView = (ListView) findViewById(android.R.id.list);
         myOrdersView.setEmptyView(findViewById(android.R.id.empty));
+        myOrdersView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+
+            }
+        });
     }
 
     @Override
@@ -83,10 +96,17 @@ public class DisplayMyOrdersActivity extends Activity {
 
         @Override
         protected void onPostExecute(MyOrdersRepresentation orders) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
-                    android.R.layout.simple_list_item_1, orders.getOrders());
 
-            myOrdersView.setAdapter(adapter);
+            List<MyOrderRepresentation> orderList = orders.getOrders();
+
+            MyOrderRepresentation[] orderArray = new MyOrderRepresentation[orderList.size()];
+
+            for (int i = 0; i < orderList.size(); i++) {
+                orderArray[i] = orderList.get(i);
+            }
+
+            myOrdersView.setAdapter(new MyOrdersAdapter(activity,
+                    android.R.layout.simple_list_item_1, orderArray, myOrdersView));
         }
 
         private RestTemplate getRestTemplate(MappingJackson2HttpMessageConverter converter) {

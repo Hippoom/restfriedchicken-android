@@ -1,0 +1,6 @@
+<resources>
+    <item type="id" name="my_orders_layout" />
+    <item type="id" name="my_orders_row_layout" />
+    <item type="id" name="my_orders_row_tracking_id" />
+    <item type="id" name="my_orders_row_button" />
+</resources>
