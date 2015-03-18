@@ -111,9 +111,15 @@ task resignTestApk(type: Exec, dependsOn: repackTestApk) {
 }
 
 gradle.projectsEvaluated {
-    extractApk.dependsOn(assembleDebugAndroidTest) //app-debug.apk was replaced after assembling test
 
-    extractTestApk.dependsOn(alignApk) //test apk should have the same signature as the target apk
+    def env = System.getenv('ENV')
+    if (env != null && !env.equals("")) {
+        extractApk.dependsOn(assembleDebugAndroidTest)
+        //app-debug.apk was replaced after assembling test
 
-    connectedAndroidTest.dependsOn(resignTestApk)
+        extractTestApk.dependsOn(alignApk)
+        //test apk should have the same signature as the target apk
+
+        connectedAndroidTest.dependsOn(resignTestApk)
+    }
 }
