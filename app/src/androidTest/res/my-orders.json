@@ -2,7 +2,10 @@
   {
     "request" : {
       "method" : "get",
-      "uri": "/customers/1/orders"
+      "uri": "/customers/1/orders",
+      "queries" : {
+        "status" : "WAIT_PAYMENT"
+      }
     },
     "response" : {
       "json": {
@@ -20,20 +23,37 @@
                   "href" : "${req.method}"
                 }
               ]
-            },
-            {
-              "tracking_id" : "tracking_id_2",
-              "status" : "CANCELED"
-            },
-            {
-              "tracking_id" : "tracking_id_3",
-              "status" : "CANCELED"
             }
           ],
           "_links" : []
       }
     }
   },
+  {
+      "request" : {
+        "method" : "get",
+        "uri": "/customers/1/orders",
+        "queries" : {
+          "status" : "SERVING"
+        }
+      },
+      "response" : {
+        "json": {
+            "orders" : [
+
+              {
+                "tracking_id" : "tracking_id_2",
+                "status" : "SERVING"
+              },
+              {
+                "tracking_id" : "tracking_id_3",
+                "status" : "SERVING"
+              }
+            ],
+            "_links" : []
+        }
+      }
+    },
   {
     "request" : {
         "method" : "get",

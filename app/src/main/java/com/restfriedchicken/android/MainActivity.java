@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.restfriedchicken.android.orders.DisplayMyOrdersActivity;
+import com.restfriedchicken.android.orders.DisplayMyOrdersGroupedByStatusActivity;
 
 
 public class MainActivity extends Activity {
@@ -41,9 +41,11 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /** Called when the user clicks the My Orders button */
+    /**
+     * Called when the user clicks the My Orders button
+     */
     public void redirectToMyOrders(View view) {
-        Intent intent = new Intent(this, DisplayMyOrdersActivity.class);
+        Intent intent = new Intent(this, DisplayMyOrdersGroupedByStatusActivity.class);
         startActivity(intent);
     }
 }
