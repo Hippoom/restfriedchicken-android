@@ -35,17 +35,15 @@ public class DetailOrderTest extends
     private void assertPaymentMakeingShouldBeSuggestedFor(String trackingId) {
         orderFixture.getSolo().sleep(2);
 
-        Map<String, String> tag = new HashMap<>();
-        tag.put("id", "button_" + trackingId);
-
-        Button button = (Button) orderFixture.getSolo().getView(tag);
-        assertNotNull("Cannot find payment button for [" + trackingId + "]", button);
-        assertEquals("Unexpected button for [" + trackingId + "]", "Pay", button.getText());
+        assertTrue("It does not suggest to make a payment.", orderFixture.getSolo().searchButton("Pay"));
     }
 
     private String selectOrderWhichStatusIsWaitPayment() {
-        orderFixture.getSolo().clickOnText("tracking_id_1");
-        return "tracking_id_1";
+        String tracking_id_1 = "tracking_id_1";
+
+        orderFixture.getSolo().clickOnText(tracking_id_1);
+
+        return tracking_id_1;
     }
 
     private void redirectToMyOrders() {

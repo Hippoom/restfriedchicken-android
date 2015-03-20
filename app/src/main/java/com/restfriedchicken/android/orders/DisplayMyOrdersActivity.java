@@ -1,21 +1,12 @@
 package com.restfriedchicken.android.orders;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,12 +27,6 @@ public class DisplayMyOrdersActivity extends Activity {
         setContentView(R.layout.activity_display_my_orders);
         myOrdersView = (ListView) findViewById(android.R.id.list);
         myOrdersView.setEmptyView(findViewById(android.R.id.empty));
-        myOrdersView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-
-            }
-        });
     }
 
     @Override
@@ -106,7 +91,7 @@ public class DisplayMyOrdersActivity extends Activity {
             }
 
             myOrdersView.setAdapter(new MyOrdersAdapter(activity,
-                    android.R.layout.simple_list_item_1, orderArray, myOrdersView));
+                    android.R.layout.simple_list_item_1, orderArray));
         }
 
         private RestTemplate getRestTemplate(MappingJackson2HttpMessageConverter converter) {
@@ -124,6 +109,7 @@ public class DisplayMyOrdersActivity extends Activity {
         private ObjectMapper objectMapper() {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return objectMapper;
         }
 

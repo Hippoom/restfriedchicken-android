@@ -9,22 +9,51 @@
           "orders" : [
             {
               "tracking_id" : "tracking_id_1",
+              "status" : "WAIT_PAYMENT",
               "_links" : [
                 {
+                  "rel" : "self",
+                  "href" : "123"
+                },
+                {
                   "rel" : "payment",
-                  "href" : ""
+                  "href" : "${req.method}"
                 }
               ]
             },
             {
-              "tracking_id" : "tracking_id_2"
+              "tracking_id" : "tracking_id_2",
+              "status" : "CANCELED"
             },
             {
-              "tracking_id" : "tracking_id_3"
+              "tracking_id" : "tracking_id_3",
+              "status" : "CANCELED"
             }
           ],
           "_links" : []
       }
+    }
+  },
+  {
+    "request" : {
+        "method" : "get",
+        "uri": "/customers/1/orders/tracking_id_1"
+    },
+    "response" : {
+        "json": {
+            "tracking_id" : "tracking_id_1",
+            "status" : "WAIT_PAYMENT",
+            "_links" : [
+              {
+                "rel" : "self",
+                "href" : "123"
+              },
+              {
+                "rel" : "payment",
+                "href" : ""
+              }
+            ]
+        }
     }
   }
 ]

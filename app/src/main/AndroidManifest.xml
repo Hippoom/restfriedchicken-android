@@ -27,6 +27,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
+        <activity
+            android:name=".orders.DisplayMyOrderActivity"
+            android:label="@string/title_activity_display_my_order"
+            android:parentActivityName=".orders.DisplayMyOrdersActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".orders.DisplayMyOrdersActivity" />
+        </activity>
     </application>
+
 
 </manifest>

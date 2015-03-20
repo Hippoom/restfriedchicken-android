@@ -2,5 +2,6 @@
     <item type="id" name="my_orders_layout" />
     <item type="id" name="my_orders_row_layout" />
     <item type="id" name="my_orders_row_tracking_id" />
-    <item type="id" name="my_orders_row_button" />
+    <item type="id" name="my_orders_row_status" />
+    <item type="id" name="button_make_payment" />
 </resources>
