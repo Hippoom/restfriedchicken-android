@@ -47,7 +47,7 @@ public class DisplayMyOrdersActivity extends Activity {
                 , new MyOrdersUiRenderer(this, myOrdersView)).execute();
     }
 
-    static class MyOrdersUiRenderer extends GetMyOrdersTask.UiCallback {
+    static class MyOrdersUiRenderer extends GetMyOrdersTask.UiCallback<MyOrdersRepresentation> {
 
         private DisplayMyOrdersActivity caller;
         private ListView myOrdersView;

@@ -8,11 +8,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.restfriedchicken.android.R;
+import com.restfriedchicken.android.RestfriedChickenApp;
 
 public class DisplayMyOrderActivity extends Activity {
+
+    private String selfHref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +25,7 @@ public class DisplayMyOrderActivity extends Activity {
 
         Intent intent = getIntent();
 
-        String selfHref = intent.getStringExtra("self_link_href");
+        this.selfHref = intent.getStringExtra("self_link_href");
 
         Button makePaymentButton = (Button) findViewById(R.id.button_make_payment);
         makePaymentButton.setVisibility(View.VISIBLE);
@@ -49,6 +53,29 @@ public class DisplayMyOrderActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        //new GetMyOrdersTask(this).execute();
+        new GetMyOrderTask((RestfriedChickenApp) getApplication(), new MyOrderUiRenderer(this), selfHref).execute();
+    }
+
+    static class MyOrderUiRenderer extends GetCustomerResourceTask.UiCallback<MyOrderRepresentation> {
+
+        private DisplayMyOrderActivity caller;
+
+        MyOrderUiRenderer(DisplayMyOrderActivity caller) {
+            this.caller = caller;
+        }
+
+        @Override
+        public void handle(MyOrderRepresentation order) {
+            TextView trackingId = (TextView) caller.findViewById(R.id.my_orders_row_tracking_id);
+            TextView status = (TextView) caller.findViewById(R.id.my_orders_row_status);
+
+            trackingId.setText(order.getTrackingId());
+            status.setText(order.getStatus());
+
+            if (order.isPayable()) {
+                Button makePayment = (Button) caller.findViewById(R.id.button_make_payment);
+                makePayment.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

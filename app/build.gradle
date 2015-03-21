@@ -51,7 +51,7 @@ task extractApk(type: Copy) {
 task configApk(type: Copy, dependsOn: extractApk) {
     outputs.upToDateWhen { false }
 
-    def env = System.getenv('ENV')
+    def env = getEnv()
 
     def config = file("config/${env}/config.properties")
     def outputDir = file("${buildDir}/outputs/apk/under-config/assets/")
@@ -112,16 +112,36 @@ task resignTestApk(type: Exec, dependsOn: repackTestApk) {
     args "-xe", "${projectDir}/scripts/resign_apk.sh", "${buildDir}/outputs/apk/app-debug-androidTest-unaligned.apk"
 }
 
+task configDeviceHosts(type: Exec) {
+    def env = getEnv()
+
+    executable "sh"
+    args "-xe", "${projectDir}/scripts/config_device_hosts.sh", "${projectDir}/config/${env}/hosts"
+}
+
 gradle.projectsEvaluated {
 
-    def env = System.getenv('ENV')
-    if (env != null && !env.equals("")) {
+    connectedAndroidTest.dependsOn(configDeviceHosts)
+
+    def env = getEnv()
+    if (!env.equals("dev")) {
         extractApk.dependsOn(assembleDebugAndroidTest)
         //app-debug.apk was replaced after assembling test
 
         extractTestApk.dependsOn(alignApk)
         //test apk should have the same signature as the target apk
 
-        connectedAndroidTest.dependsOn(resignTestApk)
+        configDeviceHosts.dependsOn(resignTestApk)
     }
+
+}
+
+def getEnv() {
+    def env = System.getenv('ENV')
+    if (env != null && !env.equals("")) {
+        return env
+    } else {
+        return "dev"
+    }
+
 }

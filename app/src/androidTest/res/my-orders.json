@@ -16,7 +16,7 @@
               "_links" : [
                 {
                   "rel" : "self",
-                  "href" : "123"
+                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/tracking_id_1"
                 },
                 {
                   "rel" : "payment",

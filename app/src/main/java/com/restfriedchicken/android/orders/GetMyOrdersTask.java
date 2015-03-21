@@ -13,66 +13,31 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-public class GetMyOrdersTask extends AsyncTask<Void, Void, MyOrdersRepresentation> {
+public class GetMyOrdersTask extends GetCustomerResourceTask<MyOrdersRepresentation> {
 
     private String statusEq;
-
-    private RestfriedChickenApp application;
-
-    private UiCallback uiCallback;
 
     public GetMyOrdersTask(RestfriedChickenApp application, UiCallback uiCallback) {
         this(application, uiCallback, "");
     }
 
-    public GetMyOrdersTask(RestfriedChickenApp application, UiCallback uiCallback, String statusEq) {
+    public GetMyOrdersTask(RestfriedChickenApp application, UiCallback<MyOrdersRepresentation> uiCallback, String statusEq) {
+        super(application, uiCallback);
         this.statusEq = statusEq;
-        this.application = application;
-        this.uiCallback = uiCallback;
     }
 
     @Override
     protected MyOrdersRepresentation doInBackground(Void... params) {
         try {
             final String url = customerServiceBaseUrl() + "/1/orders?status=" + statusEq;
-            MyOrdersRepresentation orders = getRestTemplate(jsonMessageConverter(objectMapper())).getForObject(url, MyOrdersRepresentation.class);
+            MyOrdersRepresentation orders = getRestTemplate().getForObject(url, MyOrdersRepresentation.class);
             return orders;
         } catch (Exception e) {
-            Log.e("DisplayMyOrdersActivity", e.getMessage(), e);
+            Log.e(getLogTag(), e.getMessage(), e);
         }
         return new MyOrdersRepresentation();
     }
 
-    private String customerServiceBaseUrl() {
-        return application.customerServiceBaseUrl();
-    }
 
-    @Override
-    protected void onPostExecute(MyOrdersRepresentation orders) {
-        uiCallback.handle(orders);
-    }
 
-    private RestTemplate getRestTemplate(MappingJackson2HttpMessageConverter converter) {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(converter);
-        return restTemplate;
-    }
-
-    private MappingJackson2HttpMessageConverter jsonMessageConverter(ObjectMapper objectMapper) {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(objectMapper);
-        return converter;
-    }
-
-    private ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        return objectMapper;
-    }
-
-    public static abstract class UiCallback {
-
-        public abstract void handle(MyOrdersRepresentation orders);
-    }
 }

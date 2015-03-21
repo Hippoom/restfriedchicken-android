@@ -108,7 +108,7 @@ public class DisplayMyOrdersGroupedByStatusActivity extends FragmentActivity {
         }
     }
 
-    static class MyOrdersUiRenderer extends GetMyOrdersTask.UiCallback {
+    static class MyOrdersUiRenderer extends GetMyOrdersTask.UiCallback<MyOrdersRepresentation> {
 
         private Context caller;
         private ListView myOrdersView;

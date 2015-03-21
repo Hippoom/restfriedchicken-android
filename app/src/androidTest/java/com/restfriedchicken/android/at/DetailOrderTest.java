@@ -31,6 +31,8 @@ public class DetailOrderTest extends
     private void assertPaymentMakeingShouldBeSuggestedFor(String trackingId) {
         orderFixture.getSolo().sleep(2);
 
+        assertTrue("It does not suggest to make a payment.", orderFixture.getSolo().searchText(trackingId));
+        assertTrue("It does not suggest to make a payment.", orderFixture.getSolo().searchText("WAIT_PAYMENT"));
         assertTrue("It does not suggest to make a payment.", orderFixture.getSolo().searchButton("Pay"));
     }
 
