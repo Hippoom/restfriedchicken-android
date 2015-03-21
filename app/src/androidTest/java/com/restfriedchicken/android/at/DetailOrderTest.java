@@ -1,13 +1,9 @@
 package com.restfriedchicken.android.at;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.Button;
 
 import com.restfriedchicken.android.MainActivity;
 import com.robotium.solo.Solo;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class DetailOrderTest extends
@@ -47,7 +43,7 @@ public class DetailOrderTest extends
     }
 
     private void redirectToMyOrders() {
-        orderFixture.redirectToMyOrders();
+        orderFixture.navigateToMyOrders();
     }
 
 

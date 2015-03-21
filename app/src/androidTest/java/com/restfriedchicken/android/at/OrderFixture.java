@@ -9,9 +9,13 @@ public class OrderFixture {
         this.solo = solo;
     }
 
-    public void redirectToMyOrders() {
+    public void navigateToMyOrders() {
         getSolo().clickOnButton("My Orders");
         getSolo().sleep(2);// wait for interaction with backend
+    }
+
+    public void viewMyOrderWith(String trackingId) {
+        getSolo().clickOnText(trackingId);
     }
 
     public Solo getSolo() {

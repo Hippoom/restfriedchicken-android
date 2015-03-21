@@ -43,7 +43,7 @@ public class MyOrdersTest extends
     }
 
     private void when_I_navigate_to_my_orders() {
-        orderFixture.redirectToMyOrders();
+        orderFixture.navigateToMyOrders();
     }
 
     private void then_it_should_display_my_orders_which_status_is_WAIT_PAYMENT() {
