@@ -4,7 +4,8 @@
 
     <item
         android:id="@id/button_my_orders"
-        android:showAsAction="always"
+        android:orderInCategory="1"
+        android:showAsAction="never"
         android:title="@string/button_my_orders" />
     <item
         android:id="@+id/action_settings"
