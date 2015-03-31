@@ -1,17 +1,9 @@
 package com.restfriedchicken.android.orders;
 
-import android.app.Activity;
-import android.os.AsyncTask;
 import android.util.Log;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restfriedchicken.android.RestfriedChickenApp;
-
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
+import com.restfriedchicken.rest.orders.MyOrdersRepresentation;
 
 public class GetMyOrdersTask extends GetCustomerResourceTask<MyOrdersRepresentation> {
 

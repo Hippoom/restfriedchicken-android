@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.restfriedchicken.android.R;
 import com.restfriedchicken.rest.orders.MyOrderRepresentation;
+import com.restfriedchicken.rest.orders.MyOrdersRepresentation;
 
 public class DisplayMyOrdersGroupedByStatusActivity extends FragmentActivity {
     // When requested, this adapter returns a DemoObjectFragment,
