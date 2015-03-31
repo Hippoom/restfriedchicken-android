@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         switch (id) {
-            case R.id.action_settings:
+            case R.id.button_settings:
                 return true;
             case R.id.button_my_orders:
                 navigateToMyOrders();

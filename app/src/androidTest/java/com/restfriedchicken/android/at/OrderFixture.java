@@ -1,5 +1,7 @@
 package com.restfriedchicken.android.at;
 
+import android.view.View;
+
 import com.robotium.solo.Solo;
 
 public class OrderFixture {
@@ -10,7 +12,7 @@ public class OrderFixture {
     }
 
     public void navigateToMyOrders() {
-        getSolo().clickOnText("My Orders");
+        getSolo().clickOnMenuItem("My Orders");
         getSolo().sleep(2);// wait for interaction with backend
     }
 

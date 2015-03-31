@@ -23,10 +23,6 @@ public class WelcomeTest extends
         assertTrue(solo.searchText("Welcome!"));
     }
 
-    public void testMyOrdersLinkIsShown() throws Exception {
-        assertTrue(solo.searchText("My Orders"));
-    }
-
     @Override
     public void tearDown() throws Exception {
         solo.finishOpenedActivities();

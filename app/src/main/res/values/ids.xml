@@ -6,4 +6,5 @@
     <item name="button_make_payment" type="id" />
     <item name="button_my_orders" type="id" />
     <item name="category_order_status" type="id" />
+    <item name="button_settings" type="id" />
 </resources>
