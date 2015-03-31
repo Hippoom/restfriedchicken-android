@@ -24,7 +24,7 @@ public class WelcomeTest extends
     }
 
     public void testMyOrdersLinkIsShown() throws Exception {
-        assertTrue(solo.searchButton("My Orders"));
+        assertTrue(solo.searchText("My Orders"));
     }
 
     @Override

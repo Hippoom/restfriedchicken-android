@@ -14,7 +14,7 @@ public class MyOrderRepresentation {
     private String status;
 
     @JsonProperty("_links")
-    private List<Link> links = new ArrayList<>();
+    private List<Link> links = new ArrayList<Link>();
 
     public String getTrackingId() {
         return trackingId;

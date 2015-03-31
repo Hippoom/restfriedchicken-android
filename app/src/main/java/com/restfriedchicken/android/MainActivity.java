@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.restfriedchicken.android.orders.DisplayMyOrdersGroupedByStatusActivity;
 
@@ -34,8 +33,12 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.button_my_orders:
+                navigateToMyOrders();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -44,7 +47,7 @@ public class MainActivity extends Activity {
     /**
      * Called when the user clicks the My Orders button
      */
-    public void redirectToMyOrders(View view) {
+    private void navigateToMyOrders() {
         Intent intent = new Intent(this, DisplayMyOrdersGroupedByStatusActivity.class);
         startActivity(intent);
     }

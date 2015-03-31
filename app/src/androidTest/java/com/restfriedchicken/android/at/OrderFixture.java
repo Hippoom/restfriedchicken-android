@@ -10,7 +10,7 @@ public class OrderFixture {
     }
 
     public void navigateToMyOrders() {
-        getSolo().clickOnButton("My Orders");
+        getSolo().clickOnText("My Orders");
         getSolo().sleep(2);// wait for interaction with backend
     }
 

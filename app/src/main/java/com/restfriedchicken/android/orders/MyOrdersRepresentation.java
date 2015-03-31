@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MyOrdersRepresentation {
 
-    private List<MyOrderRepresentation> orders = new ArrayList<>();
+    private List<MyOrderRepresentation> orders = new ArrayList<MyOrderRepresentation>();
 
     public List<MyOrderRepresentation> getOrders() {
         return orders;
