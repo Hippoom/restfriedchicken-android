@@ -19,21 +19,28 @@ public class DetailOrderTest extends
         orderFixture = new OrderFixture(new Solo(getInstrumentation(), getActivity()));
     }
 
-    public void testPaymentMakingShouldBeSuggested() throws Exception {
+    public void test_order_details_should_be_displayed() throws Exception {
 
         redirectToMyOrders();
 
         String trackingId = selectOrderWhichStatusIsWaitPayment();
 
+        orderFixture.getSolo().sleep(2);
+
+        assertTrue("Cannot find tracking id.", orderFixture.getSolo().searchText(trackingId));
+        assertTrue("Cannot find status.", orderFixture.getSolo().searchText("WAIT_PAYMENT"));
+
+
         assertPaymentMakeingShouldBeSuggestedFor(trackingId);
+        assertCancellationShouldBeSuggestedFor(trackingId);
+    }
+
+    private void assertCancellationShouldBeSuggestedFor(String trackingId) {
+        assertTrue("It does not suggest to cancel.", orderFixture.getSolo().searchButton("Cancel", true));
     }
 
     private void assertPaymentMakeingShouldBeSuggestedFor(String trackingId) {
-        orderFixture.getSolo().sleep(2);
-
-        assertTrue("It does not suggest to make a payment.", orderFixture.getSolo().searchText(trackingId));
-        assertTrue("It does not suggest to make a payment.", orderFixture.getSolo().searchText("WAIT_PAYMENT"));
-        assertTrue("It does not suggest to make a payment.", orderFixture.getSolo().searchButton("Pay"));
+        assertTrue("It does not suggest to make a payment.", orderFixture.getSolo().searchButton("Pay", true));
     }
 
     private String selectOrderWhichStatusIsWaitPayment() {

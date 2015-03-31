@@ -2,7 +2,7 @@ package com.restfriedchicken.android.orders;
 
 import android.widget.TextView;
 
-import com.restfriedchicken.android.rest.Link;
+import com.restfriedchicken.rest.Link;
 
 public class MyOrderViewHolder {
     public TextView trackingId;

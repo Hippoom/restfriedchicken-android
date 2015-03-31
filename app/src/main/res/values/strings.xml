@@ -12,5 +12,6 @@
     <string name="button_make_payment">Pay</string>
 
     <string name="title_activity_display_my_order">My Order</string>
+    <string name="button_cancel">Cancel</string>
 
 </resources>

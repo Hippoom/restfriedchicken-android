@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.restfriedchicken.android.R;
 import com.restfriedchicken.android.RestfriedChickenApp;
+import com.restfriedchicken.rest.orders.MyOrderRepresentation;
 
 public class DisplayMyOrderActivity extends Activity {
 
@@ -70,10 +71,15 @@ public class DisplayMyOrderActivity extends Activity {
             trackingId.setText(order.getTrackingId());
             status.setText(order.getStatus());
 
-            if (order.isPayable()) {
+            if (order.isAvailableToMakePayment()) {
                 Button makePayment = (Button) caller.findViewById(R.id.button_make_payment);
                 makePayment.setVisibility(View.VISIBLE);
             }
+            if (order.isAvailableToCancel()) {
+                Button cancel = (Button) caller.findViewById(R.id.button_cancel);
+                cancel.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 }

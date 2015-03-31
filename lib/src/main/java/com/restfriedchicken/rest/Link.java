@@ -1,4 +1,4 @@
-package com.restfriedchicken.android.rest;
+package com.restfriedchicken.rest;
 
 public class Link {
     private String rel;

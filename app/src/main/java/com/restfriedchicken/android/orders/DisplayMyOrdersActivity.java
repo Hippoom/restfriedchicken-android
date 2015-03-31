@@ -8,6 +8,7 @@ import android.widget.ListView;
 
 import com.restfriedchicken.android.R;
 import com.restfriedchicken.android.RestfriedChickenApp;
+import com.restfriedchicken.rest.orders.MyOrderRepresentation;
 
 public class DisplayMyOrdersActivity extends Activity {
     private ListView myOrdersView;

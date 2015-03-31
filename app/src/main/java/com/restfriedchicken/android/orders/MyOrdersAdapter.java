@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.restfriedchicken.android.R;
+import com.restfriedchicken.rest.orders.MyOrderRepresentation;
 
 public class MyOrdersAdapter extends ArrayAdapter<MyOrderRepresentation> {
 

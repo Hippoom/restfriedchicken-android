@@ -3,6 +3,7 @@ package com.restfriedchicken.android.orders;
 import android.util.Log;
 
 import com.restfriedchicken.android.RestfriedChickenApp;
+import com.restfriedchicken.rest.orders.MyOrderRepresentation;
 
 public class GetMyOrderTask extends GetCustomerResourceTask<MyOrderRepresentation> {
 

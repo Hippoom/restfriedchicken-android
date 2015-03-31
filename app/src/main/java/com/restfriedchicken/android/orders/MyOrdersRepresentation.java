@@ -1,5 +1,7 @@
 package com.restfriedchicken.android.orders;
 
+import com.restfriedchicken.rest.orders.MyOrderRepresentation;
+
 import java.util.ArrayList;
 import java.util.List;
 

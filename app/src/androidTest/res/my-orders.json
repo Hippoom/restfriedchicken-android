@@ -71,6 +71,10 @@
               {
                 "rel" : "payment",
                 "href" : ""
+              },
+              {
+                "rel" : "cancel",
+                "href" : ""
               }
             ]
         }

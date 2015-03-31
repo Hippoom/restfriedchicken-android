@@ -7,4 +7,5 @@
     <item name="button_my_orders" type="id" />
     <item name="category_order_status" type="id" />
     <item name="button_settings" type="id" />
+    <item name="button_cancel" type="id" />
 </resources>
