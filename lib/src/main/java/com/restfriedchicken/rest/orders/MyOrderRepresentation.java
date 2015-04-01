@@ -52,4 +52,8 @@ public class MyOrderRepresentation {
         }
         return false;
     }
+
+    public Link getCancelLink() {
+        return getLink("cancel");
+    }
 }

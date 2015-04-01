@@ -3,19 +3,23 @@ package com.restfriedchicken.android.orders;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.kevinsawicki.http.HttpRequest;
 import com.restfriedchicken.android.R;
 import com.restfriedchicken.android.RestfriedChickenApp;
+import com.restfriedchicken.rest.Link;
 import com.restfriedchicken.rest.orders.MyOrderRepresentation;
 
 public class DisplayMyOrderActivity extends Activity {
 
     private String selfHref;
+    private MyOrderRepresentation order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +29,6 @@ public class DisplayMyOrderActivity extends Activity {
         Intent intent = getIntent();
 
         this.selfHref = intent.getStringExtra("self_link_href");
-
-        Button makePaymentButton = (Button) findViewById(R.id.button_make_payment);
-        makePaymentButton.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -55,6 +56,14 @@ public class DisplayMyOrderActivity extends Activity {
         new GetMyOrderTask((RestfriedChickenApp) getApplication(), new MyOrderUiRenderer(this), selfHref).execute();
     }
 
+    protected MyOrderRepresentation getOrder() {
+        return order;
+    }
+
+    protected void setOrder(MyOrderRepresentation order) {
+        this.order = order;
+    }
+
     static class MyOrderUiRenderer extends GetCustomerResourceTask.UiCallback<MyOrderRepresentation> {
 
         private DisplayMyOrderActivity caller;
@@ -65,21 +74,55 @@ public class DisplayMyOrderActivity extends Activity {
 
         @Override
         public void handle(MyOrderRepresentation order) {
+            caller.setOrder(order);
+
             TextView trackingId = (TextView) caller.findViewById(R.id.my_orders_row_tracking_id);
             TextView status = (TextView) caller.findViewById(R.id.my_orders_row_status);
 
             trackingId.setText(order.getTrackingId());
             status.setText(order.getStatus());
 
+
+            Button makePayment = (Button) caller.findViewById(R.id.button_make_payment);
+            makePayment.setVisibility(View.INVISIBLE);
+            Button cancel = (Button) caller.findViewById(R.id.button_cancel);
+            cancel.setVisibility(View.INVISIBLE);
+
             if (order.isAvailableToMakePayment()) {
-                Button makePayment = (Button) caller.findViewById(R.id.button_make_payment);
                 makePayment.setVisibility(View.VISIBLE);
             }
             if (order.isAvailableToCancel()) {
-                Button cancel = (Button) caller.findViewById(R.id.button_cancel);
                 cancel.setVisibility(View.VISIBLE);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new CancelMyOrderTask((RestfriedChickenApp) caller.getApplication(), new MyOrderUiRenderer(caller), caller.getOrder().getCancelLink()).execute();
+                    }
+                });
             }
 
         }
+    }
+
+    static class CancelMyOrderTask extends GetCustomerResourceTask<MyOrderRepresentation> {
+        private Link link;
+
+        CancelMyOrderTask(RestfriedChickenApp app, UiCallback<MyOrderRepresentation> uiCallback, Link link) {
+            super(app, uiCallback);
+            this.link = link;
+        }
+
+        @Override
+        protected MyOrderRepresentation doInBackground(Void... params) {
+            try {
+                String order = HttpRequest.delete(link.getHref()).body();
+
+                return objectMapper().readValue(order, MyOrderRepresentation.class);
+            } catch (Exception e) {
+                Log.e("CancelMyOrderTask", e.getMessage(), e);
+                return null;
+            }
+        }
+
     }
 }
