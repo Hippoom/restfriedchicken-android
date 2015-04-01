@@ -119,9 +119,25 @@ task configDeviceHosts(type: Exec) {
     args "-xe", "${projectDir}/scripts/config_device_hosts.sh", "${projectDir}/config/${env}/hosts"
 }
 
+
+task cleanScreenshots(type: Exec) {
+    executable "adb"
+    args "shell", "rm -rf /sdcard/Robotium-Screenshots/ && mkdir -p /sdcard/Robotium-Screenshots/"
+}
+
+task fetchScreenshots(type: Exec) {
+    executable "adb"
+    args "pull", "/sdcard/Robotium-Screenshots/", "${buildDir}/outputs/reports/androidTests/connected/Robotium-Screenshots/"
+}
+
 gradle.projectsEvaluated {
 
-    connectedAndroidTest.dependsOn(configDeviceHosts)
+    connectedAndroidTest.dependsOn([configDeviceHosts, cleanScreenshots])
+
+    connectedAndroidTest {
+        finalizedBy fetchScreenshots
+    }
+
 
     def env = getEnv()
     if (!env.equals("dev")) {

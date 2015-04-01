@@ -8,7 +8,7 @@ import com.robotium.solo.Solo;
 
 
 public class MyOrdersTest extends
-        ActivityInstrumentationTestCase2<MainActivity> {
+        RobotiumAcceptanceTestCase<MainActivity> {
 
     private OrderFixture orderFixture;
 
@@ -16,8 +16,10 @@ public class MyOrdersTest extends
         super(MainActivity.class);
     }
 
-    public void setUp() throws Exception {
-        orderFixture = new OrderFixture(new Solo(getInstrumentation(), getActivity()));
+    @Override
+    public void setUp() {
+        super.setUp();
+        orderFixture = new OrderFixture(getSolo());
     }
 
     public void testMyOrdersAreShown() throws Exception {
@@ -53,9 +55,5 @@ public class MyOrdersTest extends
     @Override
     public void tearDown() throws Exception {
         getSolo().finishOpenedActivities();
-    }
-
-    private Solo getSolo() {
-        return orderFixture.getSolo();
     }
 }

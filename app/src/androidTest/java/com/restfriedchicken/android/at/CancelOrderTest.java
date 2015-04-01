@@ -1,13 +1,10 @@
 package com.restfriedchicken.android.at;
 
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.restfriedchicken.android.MainActivity;
-import com.robotium.solo.Solo;
 
 
 public class CancelOrderTest extends
-        ActivityInstrumentationTestCase2<MainActivity> {
+        RobotiumAcceptanceTestCase<MainActivity> {
 
     private OrderFixture orderFixture;
 
@@ -15,8 +12,10 @@ public class CancelOrderTest extends
         super(MainActivity.class);
     }
 
-    public void setUp() throws Exception {
-        orderFixture = new OrderFixture(new Solo(getInstrumentation(), getActivity()));
+    @Override
+    public void setUp() {
+        super.setUp();
+        orderFixture = new OrderFixture(getSolo());
     }
 
     public void test_order_details_should_be_displayed() throws Exception {
@@ -47,7 +46,4 @@ public class CancelOrderTest extends
         getSolo().finishOpenedActivities();
     }
 
-    private Solo getSolo() {
-        return orderFixture.getSolo();
-    }
 }
