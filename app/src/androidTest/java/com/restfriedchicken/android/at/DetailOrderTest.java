@@ -16,8 +16,7 @@ public class DetailOrderTest extends
     }
 
     @Override
-    public void setUp() {
-        super.setUp();
+    public void doSetUp() {
         orderFixture = new OrderFixture(getSolo());
     }
 

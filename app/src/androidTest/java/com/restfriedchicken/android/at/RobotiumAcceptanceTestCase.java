@@ -18,6 +18,11 @@ public abstract class RobotiumAcceptanceTestCase<T extends Activity> extends Act
     @Override
     public void setUp() {
         this.solo = new Solo(getInstrumentation(), getActivity());
+        doSetUp();
+    }
+
+    protected void doSetUp() {
+        
     }
 
     public Solo getSolo() {
