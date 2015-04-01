@@ -1,7 +1,5 @@
 package com.restfriedchicken.android.at;
 
-import android.view.View;
-
 import com.robotium.solo.Solo;
 
 public class OrderFixture {
@@ -16,8 +14,14 @@ public class OrderFixture {
         getSolo().sleep(2);// wait for interaction with backend
     }
 
-    public void viewMyOrderWith(String trackingId) {
+    public void viewMyOrder(String trackingId) {
         getSolo().clickOnText(trackingId);
+        getSolo().sleep(2);// wait for interaction with backend
+    }
+
+    public void cancel() {
+        getSolo().clickOnButton("Cancel");
+        getSolo().sleep(2);// wait for interaction with backend
     }
 
     public Solo getSolo() {

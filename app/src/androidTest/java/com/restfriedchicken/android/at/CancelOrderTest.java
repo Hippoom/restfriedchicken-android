@@ -23,25 +23,18 @@ public class CancelOrderTest extends
 
         redirectToMyOrders();
 
-        String trackingId = selectOrderWhichStatusIsWaitPayment();
+        String trackingId1 = "for_cancel_test";
 
-        orderFixture.getSolo().sleep(2);
+        orderFixture.viewMyOrder(trackingId1);
 
-        assertTrue(orderFixture.getSolo().searchText("WAIT_PAYMENT"));
+        assertTrue("It should show status with[WAIT_PAYMENT].", orderFixture.getSolo().searchText("WAIT_PAYMENT"));
 
-        orderFixture.getSolo().clickOnButton("Cancel");
+        orderFixture.cancel();
 
-        orderFixture.getSolo().sleep(2);
+        assertTrue("It should show status with[CANCELED].", orderFixture.getSolo().searchText("CANCELED"));
 
-        assertTrue(orderFixture.getSolo().searchText("CANCELED"));
-    }
-
-    private String selectOrderWhichStatusIsWaitPayment() {
-        String trackingId = "for_cancel_test";
-
-        orderFixture.getSolo().clickOnText(trackingId);
-
-        return trackingId;
+        assertFalse(orderFixture.getSolo().searchButton("Pay", true));
+        assertFalse(orderFixture.getSolo().searchButton("Cancel", true));
     }
 
     private void redirectToMyOrders() {

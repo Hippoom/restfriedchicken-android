@@ -21,38 +21,16 @@ public class DetailOrderTest extends
 
     public void test_order_details_should_be_displayed() throws Exception {
 
-        redirectToMyOrders();
-
-        String trackingId = selectOrderWhichStatusIsWaitPayment();
-
-        orderFixture.getSolo().sleep(2);
-
-        assertTrue("Cannot find tracking id.", orderFixture.getSolo().searchText(trackingId));
-        assertTrue("Cannot find status.", orderFixture.getSolo().searchText("WAIT_PAYMENT"));
-
-
-        assertPaymentMakeingShouldBeSuggestedFor(trackingId);
-        assertCancellationShouldBeSuggestedFor(trackingId);
-    }
-
-    private void assertCancellationShouldBeSuggestedFor(String trackingId) {
-        assertTrue("It does not suggest to cancel.", orderFixture.getSolo().searchButton("Cancel", true));
-    }
-
-    private void assertPaymentMakeingShouldBeSuggestedFor(String trackingId) {
-        assertTrue("It does not suggest to make a payment.", orderFixture.getSolo().searchButton("Pay", true));
-    }
-
-    private String selectOrderWhichStatusIsWaitPayment() {
-        String tracking_id_1 = "tracking_id_1";
-
-        orderFixture.getSolo().clickOnText(tracking_id_1);
-
-        return tracking_id_1;
-    }
-
-    private void redirectToMyOrders() {
         orderFixture.navigateToMyOrders();
+
+        String trackingId = "tracking_id_1";
+
+        orderFixture.viewMyOrder(trackingId);
+
+        assertTrue("It should show tracking id with[" + trackingId + "].", orderFixture.getSolo().searchText(trackingId));
+        assertTrue("It should show status with[WAIT_PAYMENT].", orderFixture.getSolo().searchText("WAIT_PAYMENT"));
+        assertTrue("It should be available to make a payment.", orderFixture.getSolo().searchButton("Pay", true));
+        assertTrue("It should be available to cancel.", orderFixture.getSolo().searchButton("Cancel", true));
     }
 
 
