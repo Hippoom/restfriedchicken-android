@@ -22,7 +22,7 @@ public abstract class RobotiumAcceptanceTestCase<T extends Activity> extends Act
     }
 
     protected void doSetUp() {
-        
+
     }
 
     public Solo getSolo() {

@@ -122,7 +122,7 @@ task configDeviceHosts(type: Exec) {
 
 task cleanScreenshots(type: Exec) {
     executable "adb"
-    args "shell", "rm -rf /sdcard/Robotium-Screenshots/ && mkdir -p /sdcard/Robotium-Screenshots/"
+    args "shell", "rm -rf /sdcard/Robotium-Screenshots/ && mkdir -p /sdcard/Robotium-Screenshots/"// ensure dir exists to avoid no such dir error when pulling later
 }
 
 task fetchScreenshots(type: Exec) {
@@ -130,12 +130,47 @@ task fetchScreenshots(type: Exec) {
     args "pull", "/sdcard/Robotium-Screenshots/", "${buildDir}/outputs/reports/androidTests/connected/Robotium-Screenshots/"
 }
 
+def replacePatternInFile(file, Closure replaceText) {
+    file.write(replaceText(file.text))
+}
+
+def testMethodName(testName) {
+    testName.substring(testName.lastIndexOf(".") + 1)
+}
+
+def testClassName(testName) {
+    testName.substring(0, testName.lastIndexOf("."))
+}
+
+task decoratingAndroidTestsHtmlReport << {
+    def screenshots = fileTree("${buildDir}/outputs/reports/androidTests/connected/Robotium-Screenshots")
+
+    screenshots.each { screenshot ->
+
+        def testName = screenshot.name.substring(0, screenshot.name.lastIndexOf("."))
+        def testClassName = testClassName(testName)
+        def testMethodName = testMethodName(testName)
+
+        def html = file("${buildDir}/outputs/reports/androidTests/connected/${testClassName}.html")
+        def patternToFind = "<h3 class=\"failures\">${testMethodName}</h3>"
+        def patternToReplace = "${patternToFind}<a href=\"Robotium-Screenshots/${screenshot.name}\">Screenshot</a>"
+
+        replacePatternInFile(html){
+            it.replaceAll(patternToFind, patternToReplace)
+        }
+
+    }
+
+
+}
+
 gradle.projectsEvaluated {
 
     connectedAndroidTest.dependsOn([configDeviceHosts, cleanScreenshots])
+    decoratingAndroidTestsHtmlReport.dependsOn(fetchScreenshots)
 
     connectedAndroidTest {
-        finalizedBy fetchScreenshots
+        finalizedBy decoratingAndroidTestsHtmlReport
     }
 
 
