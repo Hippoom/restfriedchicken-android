@@ -2,25 +2,25 @@
   {
       "request" : {
           "method" : "get",
-          "uri": "/customers/1/orders/for_cancel_test"
+          "uri": "/customers/1/orders/for_make_payment_test"
       },
       "response" : {
           "json": {
-              "tracking_id" : "for_cancel_test",
+              "tracking_id" : "for_make_payment_test",
               "amount" : "21.0",
               "status" : "WAIT_PAYMENT",
               "_links" : [
                 {
                   "rel" : "self",
-                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_cancel_test"
+                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_make_payment_test"
                 },
                 {
                   "rel" : "payment",
-                  "href" : ""
+                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_make_payment_test/online-txns"
                 },
                 {
                   "rel" : "cancel",
-                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_cancel_test"
+                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_make_payment_test"
                 }
               ]
           }

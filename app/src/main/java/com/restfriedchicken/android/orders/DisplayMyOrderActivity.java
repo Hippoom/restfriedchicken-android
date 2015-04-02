@@ -93,6 +93,7 @@ public class DisplayMyOrderActivity extends Activity {
 
             if (order.isAvailableToMakePayment()) {
                 makePayment.setVisibility(View.VISIBLE);
+                makePayment.setOnClickListener(new MakePaymentButtonClickListener(caller, order));
             }
             if (order.isAvailableToCancel()) {
                 cancel.setVisibility(View.VISIBLE);
@@ -104,6 +105,23 @@ public class DisplayMyOrderActivity extends Activity {
                 });
             }
 
+        }
+    }
+
+    static class MakePaymentButtonClickListener implements View.OnClickListener {
+        private DisplayMyOrderActivity caller;
+        private MyOrderRepresentation order;
+
+        MakePaymentButtonClickListener(DisplayMyOrderActivity caller, MyOrderRepresentation order) {
+            this.caller = caller;
+            this.order = order;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(caller, MakePaymentActivity.class);
+            intent.putExtra("amount_due", order.getAmount());
+            caller.startActivityForResult(intent, MakePaymentActivity.REQUEST_CODE_MAKE_PAYMENT);
         }
     }
 

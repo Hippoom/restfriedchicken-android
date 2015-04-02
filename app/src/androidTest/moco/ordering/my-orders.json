@@ -31,6 +31,17 @@
                   "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_cancel_test"
                 }
               ]
+            },
+            {
+              "tracking_id" : "for_make_payment_test",
+              "status" : "WAIT_PAYMENT",
+              "amount" : "21.00",
+              "_links" : [
+                {
+                  "rel" : "self",
+                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_make_payment_test"
+                }
+              ]
             }
           ],
           "_links" : []

@@ -9,4 +9,8 @@
     <item name="category_order_status" type="id" />
     <item name="button_settings" type="id" />
     <item name="button_cancel" type="id" />
+    <item name="amount_to_pay_edit" type="id" />
+    <item name="credit_card_number_edit" type="id" />
+    <item name="effective_date_edit" type="id" />
+    <item name="cvv2_edit" type="id" />
 </resources>

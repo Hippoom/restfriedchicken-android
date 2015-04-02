@@ -46,6 +46,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".orders.DisplayMyOrdersActivity" />
         </activity>
+        <activity
+            android:name=".orders.MakePaymentActivity"
+            android:label="@string/title_activity_make_payment"
+            android:parentActivityName=".orders.DisplayMyOrdersActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".orders.DisplayMyOrdersActivity" />
+        </activity>
     </application>
 
 

@@ -13,5 +13,10 @@
 
     <string name="title_activity_display_my_order">My Order</string>
     <string name="button_cancel">Cancel</string>
+    <string name="amount">Amount</string>
+    <string name="your_credit_card_number">Your Credit Card Number Here</string>
+    <string name="title_activity_make_payment">Make Payment</string>
+    <string name="your_cc_effective_date">Credit Card Effective Date MM/YY</string>
+    <string name="your_cc_cvv2">Credit Card CVV2 Code Here</string>
 
 </resources>

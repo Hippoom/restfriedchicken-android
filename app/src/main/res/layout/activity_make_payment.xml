@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@id/amount_to_pay_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentLeft="true"/>
+
+    <EditText
+        android:id="@id/credit_card_number_edit"
+        android:text="@string/your_credit_card_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"/>
+
+    <EditText
+        android:id="@id/effective_date_edit"
+        android:text="@string/your_cc_effective_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"/>
+
+    <EditText
+        android:id="@id/cvv2_edit"
+        android:text="@string/your_cc_cvv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"/>
+
+    <Button
+        android:id="@id/button_make_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_make_payment"/>
+
+</LinearLayout>
