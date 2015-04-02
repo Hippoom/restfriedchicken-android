@@ -48,7 +48,7 @@ public class MyOrdersTest extends
     }
 
     private void then_it_should_display_my_orders_which_status_is_WAIT_PAYMENT() {
-        assertTrue(getSolo().searchText("tracking_id_1", true));
+        assertTrue(getSolo().searchText("for_detail_test", true));
     }
 
     @Override

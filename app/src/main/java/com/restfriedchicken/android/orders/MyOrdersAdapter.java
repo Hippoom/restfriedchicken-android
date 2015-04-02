@@ -29,15 +29,15 @@ public class MyOrdersAdapter extends ArrayAdapter<MyOrderRepresentation> {
             LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
             rowView = inflater.inflate(R.layout.my_orders_row, parent, false);
             MyOrderViewHolder h = new MyOrderViewHolder();
-            h.trackingId = (TextView) rowView.findViewById(R.id.my_orders_row_tracking_id);
-            h.status = (TextView) rowView.findViewById(R.id.my_orders_row_status);
+            h.trackingId = (TextView) rowView.findViewById(R.id.my_order_tracking_id);
+            h.amount = (TextView) rowView.findViewById(R.id.my_order_amount);
             rowView.setTag(h);
         }
 
         MyOrderViewHolder h = (MyOrderViewHolder) rowView.getTag();
 
         h.trackingId.setText(order.getTrackingId());
-        h.status.setText(order.getStatus());
+        h.amount.setText(order.getAmount());
         h.self = order.getLink("self");
 
         rowView.setOnClickListener(new OnMyOrderClickListener(getContext(), h));

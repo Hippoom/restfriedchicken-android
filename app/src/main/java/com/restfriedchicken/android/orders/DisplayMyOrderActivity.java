@@ -76,11 +76,14 @@ public class DisplayMyOrderActivity extends Activity {
         public void handle(MyOrderRepresentation order) {
             caller.setOrder(order);
 
-            TextView trackingId = (TextView) caller.findViewById(R.id.my_orders_row_tracking_id);
-            TextView status = (TextView) caller.findViewById(R.id.my_orders_row_status);
+            TextView trackingId = (TextView) caller.findViewById(R.id.my_order_tracking_id);
+            TextView amount = (TextView) caller.findViewById(R.id.my_order_amount);
+            TextView status = (TextView) caller.findViewById(R.id.my_order_status);
 
             trackingId.setText(order.getTrackingId());
+            amount.setText(order.getAmount());
             status.setText(order.getStatus());
+
 
 
             Button makePayment = (Button) caller.findViewById(R.id.button_make_payment);

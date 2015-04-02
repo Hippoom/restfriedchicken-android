@@ -24,11 +24,12 @@ public class DetailOrderTest extends
 
         orderFixture.navigateToMyOrders();
 
-        String trackingId = "tracking_id_1";
+        String trackingId = "for_detail_test";
 
         orderFixture.viewMyOrder(trackingId);
 
         assertTrue("It should show tracking id with[" + trackingId + "].", orderFixture.getSolo().searchText(trackingId));
+        assertTrue("It should show amount with[21.0].", orderFixture.getSolo().searchText("20.0"));
         assertTrue("It should show status with[WAIT_PAYMENT].", orderFixture.getSolo().searchText("WAIT_PAYMENT"));
         assertTrue("It should be available to make a payment.", orderFixture.getSolo().searchButton("Pay", true));
         assertTrue("It should be available to cancel.", orderFixture.getSolo().searchButton("Cancel", true));

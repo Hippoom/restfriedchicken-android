@@ -13,6 +13,8 @@ public class MyOrderRepresentation {
 
     private String status;
 
+    private String amount;
+
     @JsonProperty("_links")
     private List<Link> links = new ArrayList<Link>();
 
@@ -55,5 +57,9 @@ public class MyOrderRepresentation {
 
     public Link getCancelLink() {
         return getLink("cancel");
+    }
+
+    public String getAmount() {
+        return amount;
     }
 }

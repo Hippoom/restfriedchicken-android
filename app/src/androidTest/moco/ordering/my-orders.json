@@ -11,30 +11,24 @@
       "json": {
           "orders" : [
             {
-              "tracking_id" : "tracking_id_1",
+              "tracking_id" : "for_detail_test",
               "status" : "WAIT_PAYMENT",
+              "amount" : "20.00",
               "_links" : [
                 {
                   "rel" : "self",
-                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/tracking_id_1"
-                },
-                {
-                  "rel" : "payment",
-                  "href" : "${req.method}"
+                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_detail_test"
                 }
               ]
             },
             {
               "tracking_id" : "for_cancel_test",
               "status" : "WAIT_PAYMENT",
+              "amount" : "21.00",
               "_links" : [
                 {
                   "rel" : "self",
                   "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_cancel_test"
-                },
-                {
-                  "rel" : "payment",
-                  "href" : "${req.method}"
                 }
               ]
             }
@@ -57,11 +51,13 @@
 
               {
                 "tracking_id" : "tracking_id_2",
-                "status" : "SERVING"
+                "status" : "SERVING",
+                "amount" : "23.00"
               },
               {
                 "tracking_id" : "tracking_id_3",
-                "status" : "SERVING"
+                "status" : "SERVING",
+                "amount" : "24.00"
               }
             ],
             "_links" : []

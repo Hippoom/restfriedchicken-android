@@ -2,11 +2,12 @@
   {
     "request" : {
         "method" : "get",
-        "uri": "/customers/1/orders/tracking_id_1"
+        "uri": "/customers/1/orders/for_detail_test"
     },
     "response" : {
         "json": {
-            "tracking_id" : "tracking_id_1",
+            "tracking_id" : "for_detail_test",
+            "amount" : "20.0",
             "status" : "WAIT_PAYMENT",
             "_links" : [
               {

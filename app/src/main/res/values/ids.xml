@@ -1,8 +1,9 @@
 <resources>
     <item name="my_orders_layout" type="id" />
     <item name="my_orders_row_layout" type="id" />
-    <item name="my_orders_row_tracking_id" type="id" />
-    <item name="my_orders_row_status" type="id" />
+    <item name="my_order_tracking_id" type="id" />
+    <item name="my_order_amount" type="id" />
+    <item name="my_order_status" type="id" />
     <item name="button_make_payment" type="id" />
     <item name="button_my_orders" type="id" />
     <item name="category_order_status" type="id" />
