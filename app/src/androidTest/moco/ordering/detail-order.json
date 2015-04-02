@@ -1,0 +1,28 @@
+[
+  {
+    "request" : {
+        "method" : "get",
+        "uri": "/customers/1/orders/tracking_id_1"
+    },
+    "response" : {
+        "json": {
+            "tracking_id" : "tracking_id_1",
+            "status" : "WAIT_PAYMENT",
+            "_links" : [
+              {
+                "rel" : "self",
+                "href" : "123"
+              },
+              {
+                "rel" : "payment",
+                "href" : ""
+              },
+              {
+                "rel" : "cancel",
+                "href" : ""
+              }
+            ]
+        }
+    }
+  }
+]

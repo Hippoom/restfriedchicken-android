@@ -1,0 +1,71 @@
+[
+  {
+    "request" : {
+      "method" : "get",
+      "uri": "/customers/1/orders",
+      "queries" : {
+        "status" : "WAIT_PAYMENT"
+      }
+    },
+    "response" : {
+      "json": {
+          "orders" : [
+            {
+              "tracking_id" : "tracking_id_1",
+              "status" : "WAIT_PAYMENT",
+              "_links" : [
+                {
+                  "rel" : "self",
+                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/tracking_id_1"
+                },
+                {
+                  "rel" : "payment",
+                  "href" : "${req.method}"
+                }
+              ]
+            },
+            {
+              "tracking_id" : "for_cancel_test",
+              "status" : "WAIT_PAYMENT",
+              "_links" : [
+                {
+                  "rel" : "self",
+                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_cancel_test"
+                },
+                {
+                  "rel" : "payment",
+                  "href" : "${req.method}"
+                }
+              ]
+            }
+          ],
+          "_links" : []
+      }
+    }
+  },
+  {
+      "request" : {
+        "method" : "get",
+        "uri": "/customers/1/orders",
+        "queries" : {
+          "status" : "SERVING"
+        }
+      },
+      "response" : {
+        "json": {
+            "orders" : [
+
+              {
+                "tracking_id" : "tracking_id_2",
+                "status" : "SERVING"
+              },
+              {
+                "tracking_id" : "tracking_id_3",
+                "status" : "SERVING"
+              }
+            ],
+            "_links" : []
+        }
+      }
+    }
+]

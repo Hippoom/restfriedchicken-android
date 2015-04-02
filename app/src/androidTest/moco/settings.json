@@ -1,0 +1,11 @@
+[
+  {
+      "include" : "ordering/my-orders.json"
+  },
+  {
+      "include" : "ordering/detail-order.json"
+  },
+  {
+      "include" : "ordering/cancel-order.json"
+  }
+]
