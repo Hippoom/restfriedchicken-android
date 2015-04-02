@@ -23,7 +23,7 @@
         android:layout_alignParentRight="true"/>
 
     <EditText
-        android:id="@id/effective_date_edit"
+        android:id="@id/expire_date_edit"
         android:text="@string/your_cc_effective_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

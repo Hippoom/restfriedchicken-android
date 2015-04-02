@@ -28,17 +28,27 @@
     },
    {
        "request" : {
-           "method" : "delete",
-           "uri": "/customers/1/orders/for_cancel_test"
+           "method" : "post",
+           "uri": "/customers/1/orders/for_make_payment_test/online-txns",
+           "json_paths": {
+                "$.amount": "21.0",
+                "$.cc_num": "456789",
+                "$.cc_expire_date": "10/16",
+                "$.cc_cvv2": "233"
+           }
        },
        "response" : {
            "json": {
-               "tracking_id" : "for_cancel_test",
-               "status" : "CANCELED",
+               "tracking_id" : "123456",
+               "status" : "ACCEPTED",
                "_links" : [
                  {
                    "rel" : "self",
-                   "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_cancel_test"
+                   "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_make_payment_test/online-txns/123456"
+                 },
+                 {
+                    "rel" : "order",
+                    "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_make_payment_test"
                  }
                ]
            }

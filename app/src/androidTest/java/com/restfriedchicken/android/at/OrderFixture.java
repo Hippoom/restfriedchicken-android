@@ -1,7 +1,5 @@
 package com.restfriedchicken.android.at;
 
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -48,13 +46,13 @@ public class OrderFixture {
 
     public void makePayment() {
         EditText creditCardNumEdit = (EditText) getSolo().getView(R.id.credit_card_number_edit);
-        EditText effectiveDateEdit = (EditText) getSolo().getView(R.id.effective_date_edit);
+        EditText expireDateEdit = (EditText) getSolo().getView(R.id.expire_date_edit);
         EditText cvv2Edit = (EditText) getSolo().getView(R.id.cvv2_edit);
 
         getSolo().clearEditText(creditCardNumEdit);
-        getSolo().enterText(creditCardNumEdit, "My Credit Card Number");
-        getSolo().clearEditText(effectiveDateEdit);
-        getSolo().enterText(effectiveDateEdit, "10/16");
+        getSolo().enterText(creditCardNumEdit, "456789");
+        getSolo().clearEditText(expireDateEdit);
+        getSolo().enterText(expireDateEdit, "10/16");
         getSolo().clearEditText(cvv2Edit);
         getSolo().enterText(cvv2Edit, "233");
 

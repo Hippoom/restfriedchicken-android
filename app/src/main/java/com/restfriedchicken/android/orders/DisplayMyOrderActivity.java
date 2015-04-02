@@ -121,6 +121,7 @@ public class DisplayMyOrderActivity extends Activity {
         public void onClick(View v) {
             Intent intent = new Intent(caller, MakePaymentActivity.class);
             intent.putExtra("amount_due", order.getAmount());
+            intent.putExtra("make_payment_link", order.getLink("payment").getHref());
             caller.startActivityForResult(intent, MakePaymentActivity.REQUEST_CODE_MAKE_PAYMENT);
         }
     }
