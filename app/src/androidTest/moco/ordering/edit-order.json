@@ -35,13 +35,13 @@
            "method" : "put",
            "uri": "/customers/1/orders/for_update_test",
            "json_paths": {
-               "$.amount": "23.0"
+               "$.amount": "22.0"
           }
        },
        "response" : {
            "json": {
                "tracking_id" : "for_update_test",
-               "amount" : "23.0",
+               "amount" : "22.0",
                "status" : "WAIT_PAYMENT",
                    "_links" : [
                      {

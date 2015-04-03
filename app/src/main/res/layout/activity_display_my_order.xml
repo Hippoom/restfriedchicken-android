@@ -5,7 +5,7 @@
 
     <TextView
         android:id="@id/my_order_tracking_id"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="10dp"
@@ -19,7 +19,7 @@
         android:gravity="center_vertical"
         android:padding="10dp"
         android:layout_margin="10dp"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentLeft="true"/>
 
     <EditText
         android:id="@id/my_order_amount_edit"
@@ -28,7 +28,7 @@
         android:gravity="center_vertical"
         android:padding="10dp"
         android:layout_margin="10dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:visibility="invisible"/>
 
     <TextView
@@ -38,6 +38,7 @@
         android:gravity="center_vertical"
         android:padding="10dp"
         android:layout_margin="10dp"
+        android:layout_alignBottom="@id/my_order_tracking_id"
         android:layout_alignParentRight="true"/>
 
     <Button
