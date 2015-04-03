@@ -8,12 +8,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.restfriedchicken.android.R;
 import com.restfriedchicken.android.RestfriedChickenApp;
 import com.restfriedchicken.rest.Link;
+import com.restfriedchicken.rest.onlinetxn.MakeOnlineTxnCommand;
+import com.restfriedchicken.rest.onlinetxn.OnlineTxnRepresentation;
+import com.restfriedchicken.rest.orders.EditOrderCommand;
 import com.restfriedchicken.rest.orders.MyOrderRepresentation;
 
 public class DisplayMyOrderActivity extends Activity {
@@ -78,19 +83,29 @@ public class DisplayMyOrderActivity extends Activity {
 
             TextView trackingId = (TextView) caller.findViewById(R.id.my_order_tracking_id);
             TextView amount = (TextView) caller.findViewById(R.id.my_order_amount);
+            amount.setVisibility(View.VISIBLE);
             TextView status = (TextView) caller.findViewById(R.id.my_order_status);
 
             trackingId.setText(order.getTrackingId());
             amount.setText(order.getAmount());
             status.setText(order.getStatus());
 
+            EditText amountEdit = (EditText) caller.findViewById(R.id.my_order_amount_edit);
+            amountEdit.setVisibility(View.INVISIBLE);
 
 
+            Button edit = (Button) caller.findViewById(R.id.button_edit);
+            edit.setVisibility(View.INVISIBLE);
+            edit.setText(R.string.button_edit);
             Button makePayment = (Button) caller.findViewById(R.id.button_make_payment);
             makePayment.setVisibility(View.INVISIBLE);
             Button cancel = (Button) caller.findViewById(R.id.button_cancel);
             cancel.setVisibility(View.INVISIBLE);
 
+            if (order.isAvalableToEdit()) {
+                edit.setVisibility(View.VISIBLE);
+                edit.setOnClickListener(new EditButtonClickListener(caller, order));
+            }
             if (order.isAvailableToMakePayment()) {
                 makePayment.setVisibility(View.VISIBLE);
                 makePayment.setOnClickListener(new MakePaymentButtonClickListener(caller, order));
@@ -106,6 +121,52 @@ public class DisplayMyOrderActivity extends Activity {
             }
 
         }
+
+    }
+
+    static class EditButtonClickListener implements View.OnClickListener {
+        private DisplayMyOrderActivity caller;
+        private MyOrderRepresentation order;
+
+
+        EditButtonClickListener(DisplayMyOrderActivity caller, MyOrderRepresentation order) {
+            this.caller = caller;
+            this.order = order;
+        }
+
+        @Override
+        public void onClick(View v) {
+            this.caller.renderForm();
+        }
+    }
+
+    static class EditButtonClickSubmitListener implements View.OnClickListener {
+        private DisplayMyOrderActivity caller;
+        private MyOrderRepresentation order;
+
+
+        EditButtonClickSubmitListener(DisplayMyOrderActivity caller, MyOrderRepresentation order) {
+            this.caller = caller;
+            this.order = order;
+        }
+
+        @Override
+        public void onClick(View v) {
+            EditText amountEdit = (EditText) caller.findViewById(R.id.my_order_amount_edit);
+            new EditOrderTask((RestfriedChickenApp) caller.getApplication(), new MyOrderUiRenderer(caller), caller, order.getLink("edit").getHref(), new EditOrderCommand(amountEdit.getText().toString())).execute();
+        }
+    }
+
+    private void renderForm() {
+        TextView amount = (TextView) findViewById(R.id.my_order_amount);
+        amount.setVisibility(View.INVISIBLE);
+        EditText amountEdit = (EditText) findViewById(R.id.my_order_amount_edit);
+        amountEdit.setVisibility(View.VISIBLE);
+        amountEdit.setText(amount.getText().toString());
+
+        Button edit = (Button) findViewById(R.id.button_edit);
+        edit.setText(R.string.button_submit);
+        edit.setOnClickListener(new EditButtonClickSubmitListener(this, order));
     }
 
     static class MakePaymentButtonClickListener implements View.OnClickListener {
@@ -147,4 +208,31 @@ public class DisplayMyOrderActivity extends Activity {
         }
 
     }
+
+    static class EditOrderTask extends GetCustomerResourceTask<MyOrderRepresentation> {
+        private DisplayMyOrderActivity caller;
+        private EditOrderCommand command;
+        private String link;
+
+        EditOrderTask(RestfriedChickenApp app, UiCallback<MyOrderRepresentation> uiCallback, DisplayMyOrderActivity caller, String link, EditOrderCommand command) {
+            super(app, uiCallback);
+            this.caller = caller;
+            this.command = command;
+            this.link = link;
+        }
+
+        @Override
+        protected MyOrderRepresentation doInBackground(Void... params) {
+            try {
+                String body = objectMapper().writeValueAsString(command);
+                String onlineTxn = HttpRequest.put(link).send(body).body();
+                return objectMapper().readValue(onlineTxn, MyOrderRepresentation.class);
+            } catch (Exception e) {
+                Log.e("CancelMyOrderTask", e.getMessage(), e);
+                return null;
+            }
+        }
+    }
+
+
 }

@@ -59,4 +59,20 @@ public class OrderFixture {
         getSolo().clickOnButton("Pay");
         getSolo().sleep(2);// wait for interaction with backend
     }
+
+    public void editAmount(String amount) {
+        EditText amountEdit = (EditText) getSolo().getView(R.id.my_order_amount_edit);
+        getSolo().clearEditText(amountEdit);
+        getSolo().enterText(amountEdit, amount);
+
+    }
+
+    public void submitEdition() {
+        getSolo().clickOnButton("Submit");
+        getSolo().sleep(2);// wait for interaction with backend
+    }
+
+    public void startEdition() {
+        getSolo().clickOnButton("Edit");
+    }
 }

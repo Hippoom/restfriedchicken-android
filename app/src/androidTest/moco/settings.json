@@ -10,5 +10,8 @@
   },
   {
       "include" : "ordering/make-payment.json"
+  },
+  {
+     "include" : "ordering/update-order.json"
   }
 ]

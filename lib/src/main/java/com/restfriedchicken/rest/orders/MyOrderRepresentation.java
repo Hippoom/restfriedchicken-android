@@ -62,4 +62,13 @@ public class MyOrderRepresentation {
     public String getAmount() {
         return amount;
     }
+
+    public boolean isAvalableToEdit() {
+        for (Link link : links) {
+            if ("edit".equals(link.getRel())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

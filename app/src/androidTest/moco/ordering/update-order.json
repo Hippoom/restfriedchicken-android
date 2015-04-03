@@ -1,0 +1,67 @@
+[
+  {
+      "request" : {
+          "method" : "get",
+          "uri": "/customers/1/orders/for_update_test"
+      },
+      "response" : {
+          "json": {
+              "tracking_id" : "for_update_test",
+              "amount" : "21.0",
+              "status" : "WAIT_PAYMENT",
+              "_links" : [
+                {
+                  "rel" : "self",
+                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_update_test"
+                },
+                {
+                  "rel" : "edit",
+                  "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_update_test"
+                },
+                {
+                  "rel" : "payment",
+                  "href" : ""
+                },
+                {
+                  "rel" : "cancel",
+                  "href" : ""
+                }
+              ]
+          }
+      }
+    },
+   {
+       "request" : {
+           "method" : "put",
+           "uri": "/customers/1/orders/for_update_test",
+           "json_paths": {
+               "$.amount": "23.0"
+          }
+       },
+       "response" : {
+           "json": {
+               "tracking_id" : "for_update_test",
+               "amount" : "23.0",
+               "status" : "WAIT_PAYMENT",
+                   "_links" : [
+                     {
+                       "rel" : "self",
+                       "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_update_test"
+                     },
+                     {
+                       "rel" : "edit",
+                       "href" : "http://www.restfriedchicken.com:12306/customers/1/orders/for_update_test"
+                     },
+                     {
+                       "rel" : "payment",
+                       "href" : ""
+                     },
+                     {
+                       "rel" : "cancel",
+                       "href" : ""
+                     }
+               ]
+           }
+       }
+     }
+]

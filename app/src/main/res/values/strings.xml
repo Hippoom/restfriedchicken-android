@@ -18,5 +18,7 @@
     <string name="title_activity_make_payment">Make Payment</string>
     <string name="your_cc_effective_date">Credit Card Effective Date MM/YY</string>
     <string name="your_cc_cvv2">Credit Card CVV2 Code Here</string>
+    <string name="button_edit">Edit</string>
+    <string name="button_submit">Submit</string>
 
 </resources>
