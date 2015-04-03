@@ -14,7 +14,7 @@
 
     <EditText
         android:id="@id/credit_card_number_edit"
-        android:text="@string/your_credit_card_number"
+        android:hint="@string/your_credit_card_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -24,7 +24,7 @@
 
     <EditText
         android:id="@id/expire_date_edit"
-        android:text="@string/your_cc_effective_date"
+        android:hint="@string/your_cc_effective_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -34,7 +34,7 @@
 
     <EditText
         android:id="@id/cvv2_edit"
-        android:text="@string/your_cc_cvv2"
+        android:hint="@string/your_cc_cvv2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

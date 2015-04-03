@@ -34,6 +34,7 @@
        "response" : {
            "json": {
                "tracking_id" : "for_cancel_test",
+               "amount" : "21.0",
                "status" : "CANCELED",
                "_links" : [
                  {
