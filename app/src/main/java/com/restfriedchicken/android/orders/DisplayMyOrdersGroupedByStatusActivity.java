@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.restfriedchicken.android.R;
-import com.restfriedchicken.rest.orders.MyOrderRepresentation;
-import com.restfriedchicken.rest.orders.MyOrdersRepresentation;
+import com.restfriedchicken.rest.orders.OrderRepresentation;
+import com.restfriedchicken.rest.orders.OrdersRepresentation;
 
 public class DisplayMyOrdersGroupedByStatusActivity extends FragmentActivity {
     // When requested, this adapter returns a DemoObjectFragment,
@@ -103,13 +103,13 @@ public class DisplayMyOrdersGroupedByStatusActivity extends FragmentActivity {
 
             String statusEq = getArguments().getString("status");
 
-            new GetMyOrdersTask((com.restfriedchicken.android.RestfriedChickenApp) getActivity().getApplication(), new MyOrdersUiRenderer(getActivity(), myOrdersView), statusEq).execute();
+            new GetMyOrdersTask(((com.restfriedchicken.android.RestfriedChickenApp) getActivity().getApplication()).provideOrderResource(), statusEq, new MyOrdersUiRenderer(getActivity(), myOrdersView)).execute();
 
             return rootView;
         }
     }
 
-    static class MyOrdersUiRenderer extends GetMyOrdersTask.UiCallback<MyOrdersRepresentation> {
+    static class MyOrdersUiRenderer extends UiCallback<OrdersRepresentation> {
 
         private Context caller;
         private ListView myOrdersView;
@@ -120,8 +120,8 @@ public class DisplayMyOrdersGroupedByStatusActivity extends FragmentActivity {
         }
 
         @Override
-        public void handle(MyOrdersRepresentation orders) {
-            MyOrderRepresentation[] orderArray = new MyOrderRepresentation[orders.getOrders().size()];
+        public void handle(OrdersRepresentation orders) {
+            OrderRepresentation[] orderArray = new OrderRepresentation[orders.getOrders().size()];
 
             for (int i = 0; i < orders.getOrders().size(); i++) {
                 orderArray[i] = orders.getOrders().get(i);

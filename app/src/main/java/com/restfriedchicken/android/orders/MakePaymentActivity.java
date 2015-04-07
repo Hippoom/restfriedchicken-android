@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.restfriedchicken.android.R;
 import com.restfriedchicken.android.RestfriedChickenApp;
+import com.restfriedchicken.rest.Link;
+import com.restfriedchicken.rest.onlinetxn.MakeOnlineTxnCommand;
 import com.restfriedchicken.rest.onlinetxn.OnlineTxnRepresentation;
 
 public class MakePaymentActivity extends Activity {
@@ -84,7 +86,8 @@ public class MakePaymentActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            new MakePaymentTask((RestfriedChickenApp) caller.getApplication(), new MakePaymentCallback(caller), caller).execute();
+            new MakePaymentTask(((RestfriedChickenApp) caller.getApplication()).provideOnlineTxnResource(), new Link("payment", caller.getLink()), new MakeOnlineTxnCommand(caller.getAmount(), caller.getCreditCardNumber(), caller.getCreditCardExpireDate(), caller.getCreditCardCVV2()),
+                    new MakePaymentCallback(caller)).execute();
         }
     }
 
@@ -105,7 +108,7 @@ public class MakePaymentActivity extends Activity {
     }
 
 
-    static class MakePaymentCallback extends GetCustomerResourceTask.UiCallback<OnlineTxnRepresentation> {
+    static class MakePaymentCallback extends UiCallback<OnlineTxnRepresentation> {
 
         private MakePaymentActivity caller;
 

@@ -2,7 +2,7 @@ package com.restfriedchicken.android.orders;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restfriedchicken.rest.orders.MyOrderRepresentation;
+import com.restfriedchicken.rest.orders.OrderRepresentation;
 
 import org.junit.Test;
 
@@ -11,12 +11,12 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 
-public class MyOrderRepresentationTest {
+public class OrderRepresentationTest {
 
     @Test
     public void should_be_available_to_make_payment_given_payment_link() throws IOException {
 
-        MyOrderRepresentation order = objectMapper().readValue(fileContent("order-available-to-make-payment.json"), MyOrderRepresentation.class);
+        OrderRepresentation order = objectMapper().readValue(fileContent("order-available-to-make-payment.json"), OrderRepresentation.class);
 
         assertTrue("The order should suggest payment making", order.isAvailableToMakePayment());
     }
@@ -27,7 +27,7 @@ public class MyOrderRepresentationTest {
 
     @Test
     public void should_be_available_to_cancel_given_cancel_link() throws IOException {
-        MyOrderRepresentation order = objectMapper().readValue(fileContent("order-available-to-cancel.json"), MyOrderRepresentation.class);
+        OrderRepresentation order = objectMapper().readValue(fileContent("order-available-to-cancel.json"), OrderRepresentation.class);
 
         assertTrue("The order should suggest cancel", order.isAvailableToCancel());
     }

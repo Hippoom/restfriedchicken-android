@@ -2,19 +2,28 @@ package com.restfriedchicken.android.http;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restfriedchicken.android.orders.CancelMyOrderTask;
-import com.restfriedchicken.android.orders.EditOrderTask;
-import com.restfriedchicken.android.orders.GetMyOrderTask;
-import com.restfriedchicken.android.orders.GetMyOrdersTask;
-import com.restfriedchicken.android.orders.MakePaymentTask;
+import com.restfriedchicken.rest.onlinetxn.OnlineTxnResource;
+import com.restfriedchicken.rest.orders.OrderResource;
 
-import dagger.Module;
-import dagger.Provides;
+import java.util.Properties;
 
-@Module(injects = {GetMyOrdersTask.class, GetMyOrderTask.class, EditOrderTask.class, CancelMyOrderTask.class, MakePaymentTask.class})
 public class HttpModule {
 
-    @Provides
+    private Properties config;
+
+    public HttpModule(Properties config) {
+        this.config = config;
+    }
+
+    public String customerServiceBaseUrl() {
+        String value = config.getProperty("customerServiceBaseUrl");
+        if (value == null || value.trim().equals("")) {
+            return "http://www.restfriedchicken.com/customers";
+        } else {
+            return value;
+        }
+    }
+
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
@@ -22,4 +31,11 @@ public class HttpModule {
         return objectMapper;
     }
 
+    public OrderResource provideObjectResource() {
+        return new OrderResource(customerServiceBaseUrl(), objectMapper());
+    }
+
+    public OnlineTxnResource provideOnlineTxnResource() {
+        return new OnlineTxnResource(objectMapper());
+    }
 }

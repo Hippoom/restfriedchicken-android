@@ -10,18 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.restfriedchicken.android.R;
-import com.restfriedchicken.rest.orders.MyOrderRepresentation;
+import com.restfriedchicken.rest.orders.OrderRepresentation;
 
-public class MyOrdersAdapter extends ArrayAdapter<MyOrderRepresentation> {
+public class MyOrdersAdapter extends ArrayAdapter<OrderRepresentation> {
 
-    public MyOrdersAdapter(Context context, int resource, MyOrderRepresentation[] orders) {
+    public MyOrdersAdapter(Context context, int resource, OrderRepresentation[] orders) {
         super(context, resource, orders);
     }
 
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        MyOrderRepresentation order = getItem(position);
+        OrderRepresentation order = getItem(position);
 
         View rowView = convertView;
 

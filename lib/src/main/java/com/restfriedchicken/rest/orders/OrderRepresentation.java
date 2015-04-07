@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MyOrderRepresentation {
+public class OrderRepresentation {
     @JsonProperty("tracking_id")
     private String trackingId;
 

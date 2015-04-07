@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.restfriedchicken.android.R;
 import com.restfriedchicken.android.RestfriedChickenApp;
+import com.restfriedchicken.rest.Link;
 import com.restfriedchicken.rest.orders.EditOrderCommand;
-import com.restfriedchicken.rest.orders.MyOrderRepresentation;
+import com.restfriedchicken.rest.orders.OrderRepresentation;
+import com.restfriedchicken.rest.orders.OrderResource;
 
 public class DisplayMyOrderActivity extends Activity {
 
@@ -29,6 +31,7 @@ public class DisplayMyOrderActivity extends Activity {
     private Button editButton;
     private Button payButton;
     private Button cancelButton;
+    private OrderResource orderResource;
 
 
     @Override
@@ -40,6 +43,8 @@ public class DisplayMyOrderActivity extends Activity {
         this.selfHref = intent.getStringExtra("self_link_href");
 
         initLayout();
+
+        this.orderResource = ((RestfriedChickenApp) getApplication()).provideOrderResource();
     }
 
     private void initLayout() {
@@ -78,14 +83,18 @@ public class DisplayMyOrderActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        new GetMyOrderTask((RestfriedChickenApp) getApplication(), new MyOrderUiRenderer(this), selfHref).execute();
+        new GetMyOrderTask(((RestfriedChickenApp) getApplication()).provideOrderResource(), new Link("self", selfHref), new MyOrderUiRenderer(this)).execute();
     }
 
     public void setTextForStatusView(String status) {
         this.statusView.setText(status);
     }
 
-    static class MyOrderUiRenderer extends GetCustomerResourceTask.UiCallback<MyOrderRepresentation> {
+    public OrderResource getOrderResource() {
+        return orderResource;
+    }
+
+    static class MyOrderUiRenderer extends UiCallback<OrderRepresentation> {
 
         private DisplayMyOrderActivity caller;
 
@@ -94,7 +103,7 @@ public class DisplayMyOrderActivity extends Activity {
         }
 
         @Override
-        public void handle(MyOrderRepresentation order) {
+        public void handle(OrderRepresentation order) {
 
             caller.initLayout();
 
@@ -166,10 +175,10 @@ public class DisplayMyOrderActivity extends Activity {
 
     static class EditButtonClickListener implements View.OnClickListener {
         private DisplayMyOrderActivity caller;
-        private MyOrderRepresentation order;
+        private OrderRepresentation order;
 
 
-        EditButtonClickListener(DisplayMyOrderActivity caller, MyOrderRepresentation order) {
+        EditButtonClickListener(DisplayMyOrderActivity caller, OrderRepresentation order) {
             this.caller = caller;
             this.order = order;
         }
@@ -182,33 +191,33 @@ public class DisplayMyOrderActivity extends Activity {
 
     static class CancelButtonClickListener implements View.OnClickListener {
         private DisplayMyOrderActivity caller;
-        private MyOrderRepresentation order;
+        private OrderRepresentation order;
 
 
-        CancelButtonClickListener(DisplayMyOrderActivity caller, MyOrderRepresentation order) {
+        CancelButtonClickListener(DisplayMyOrderActivity caller, OrderRepresentation order) {
             this.caller = caller;
             this.order = order;
         }
 
         @Override
         public void onClick(View v) {
-            new CancelMyOrderTask((RestfriedChickenApp) caller.getApplication(), new MyOrderUiRenderer(caller), order.getCancelLink()).execute();
+            new CancelMyOrderTask(caller.getOrderResource(), order.getCancelLink(), new MyOrderUiRenderer(caller)).execute();
         }
     }
 
     static class EditButtonClickSubmitListener implements View.OnClickListener {
         private DisplayMyOrderActivity caller;
-        private MyOrderRepresentation order;
+        private OrderRepresentation order;
 
 
-        EditButtonClickSubmitListener(DisplayMyOrderActivity caller, MyOrderRepresentation order) {
+        EditButtonClickSubmitListener(DisplayMyOrderActivity caller, OrderRepresentation order) {
             this.caller = caller;
             this.order = order;
         }
 
         @Override
         public void onClick(View v) {
-            new EditOrderTask((RestfriedChickenApp) caller.getApplication(), new MyOrderUiRenderer(caller), caller, order.getLink("edit").getHref(), new EditOrderCommand(caller.getAmountEditText())).execute();
+            new EditOrderTask(caller.getOrderResource(), order.getLink("edit"), new EditOrderCommand(caller.getAmountEditText()), new MyOrderUiRenderer(caller)).execute();
         }
     }
 
@@ -216,7 +225,7 @@ public class DisplayMyOrderActivity extends Activity {
         return amountEdit.getText().toString();
     }
 
-    private void renderEditForm(MyOrderRepresentation order) {
+    private void renderEditForm(OrderRepresentation order) {
         hide(amountView);
         show(amountEdit);
         amountEdit.setText(amountView.getText().toString());
@@ -228,9 +237,9 @@ public class DisplayMyOrderActivity extends Activity {
 
     static class MakePaymentButtonClickListener implements View.OnClickListener {
         private DisplayMyOrderActivity caller;
-        private MyOrderRepresentation order;
+        private OrderRepresentation order;
 
-        MakePaymentButtonClickListener(DisplayMyOrderActivity caller, MyOrderRepresentation order) {
+        MakePaymentButtonClickListener(DisplayMyOrderActivity caller, OrderRepresentation order) {
             this.caller = caller;
             this.order = order;
         }

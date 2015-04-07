@@ -31,14 +31,6 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:+'
 
-    //http integration
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
-    compile 'com.github.kevinsawicki:http-request:5.6'
-
-    //ioc
-    compile 'com.squareup.dagger:dagger:1.2.2'
-    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
-
     //java library
     compile project(':lib')
 

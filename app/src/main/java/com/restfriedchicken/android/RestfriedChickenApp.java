@@ -6,17 +6,17 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.restfriedchicken.android.http.HttpModule;
+import com.restfriedchicken.rest.onlinetxn.OnlineTxnResource;
+import com.restfriedchicken.rest.orders.OrderResource;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import dagger.ObjectGraph;
-
 public class RestfriedChickenApp extends Application {
 
     private Properties config;
-    private ObjectGraph graph;
+    private HttpModule httpModule;
 
     @Override
     public void onCreate() {
@@ -32,21 +32,15 @@ public class RestfriedChickenApp extends Application {
         } catch (IOException e) {
             Log.e("RestfriedChickenApp", e.getMessage(), e);
         }
-        this.graph = ObjectGraph.create(new HttpModule());
+        httpModule = new HttpModule(config);
+
     }
 
-    public void inject(Object object) {
-        graph.inject(object);
+    public OrderResource provideOrderResource() {
+        return httpModule.provideObjectResource();
     }
 
-    public String customerServiceBaseUrl() {
-        String value = config.getProperty("customerServiceBaseUrl");
-        if (value == null || value.trim().equals("")) {
-            return "http://www.restfriedchicken.com/customers";
-        } else {
-            return value;
-        }
+    public OnlineTxnResource provideOnlineTxnResource() {
+        return httpModule.provideOnlineTxnResource();
     }
-
-
 }

@@ -1,32 +1,37 @@
 package com.restfriedchicken.android.orders;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
-import com.github.kevinsawicki.http.HttpRequest;
-import com.restfriedchicken.android.RestfriedChickenApp;
 import com.restfriedchicken.rest.Link;
-import com.restfriedchicken.rest.orders.MyOrderRepresentation;
+import com.restfriedchicken.rest.orders.OrderRepresentation;
+import com.restfriedchicken.rest.orders.OrderResource;
 
-public class CancelMyOrderTask extends GetCustomerResourceTask<MyOrderRepresentation> {
-    private Link link;
+public class CancelMyOrderTask extends AsyncTask<Void, Void, OrderRepresentation> {
+    private final OrderResource orderResource;
+    private final Link cancel;
+    private final UiCallback<OrderRepresentation> uiCallback;
 
-    CancelMyOrderTask(RestfriedChickenApp app, UiCallback<MyOrderRepresentation> uiCallback, Link link) {
-        super(app, uiCallback);
-        this.link = link;
+    public CancelMyOrderTask(OrderResource orderResource, Link cancel, UiCallback<OrderRepresentation> uiCallback) {
+        this.orderResource = orderResource;
+        this.cancel = cancel;
+        this.uiCallback = uiCallback;
     }
 
     @Override
-    protected MyOrderRepresentation doInBackground(Void... params) {
+    protected OrderRepresentation doInBackground(Void... params) {
         try {
-            String order = HttpRequest.delete(link.getHref()).body();
-
-            return objectMapper().readValue(order, MyOrderRepresentation.class);
+            return orderResource.cancel(cancel);
         } catch (Exception e) {
             Log.e("CancelMyOrderTask", e.getMessage(), e);
             return null;
         }
     }
 
+    @Override
+    protected void onPostExecute(OrderRepresentation result) {
+        this.uiCallback.handle(result);
+    }
 
 
 }
