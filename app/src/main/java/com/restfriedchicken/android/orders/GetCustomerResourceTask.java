@@ -2,15 +2,18 @@ package com.restfriedchicken.android.orders;
 
 import android.os.AsyncTask;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restfriedchicken.android.RestfriedChickenApp;
 
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-public abstract class GetCustomerResourceTask<Result> extends AsyncTask<Void, Void, Result> {
+import javax.inject.Inject;
 
+public abstract class GetCustomerResourceTask<Result> extends AsyncTask<Void, Void, Result> {
+    @Inject
+    ObjectMapper objectMapper;
+    @Inject
+    RestTemplate restTemplate;
 
     private RestfriedChickenApp application;
 
@@ -19,6 +22,7 @@ public abstract class GetCustomerResourceTask<Result> extends AsyncTask<Void, Vo
     protected GetCustomerResourceTask(RestfriedChickenApp application, UiCallback uiCallback) {
         this.application = application;
         this.uiCallback = uiCallback;
+        this.application.inject(this);
     }
 
     protected String getLogTag() {
@@ -36,24 +40,10 @@ public abstract class GetCustomerResourceTask<Result> extends AsyncTask<Void, Vo
     }
 
     protected RestTemplate getRestTemplate() {
-        return getRestTemplate(jsonMessageConverter(objectMapper()));
-    }
-
-    private RestTemplate getRestTemplate(MappingJackson2HttpMessageConverter converter) {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(converter);
         return restTemplate;
     }
 
-    private MappingJackson2HttpMessageConverter jsonMessageConverter(ObjectMapper objectMapper) {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(objectMapper);
-        return converter;
-    }
     protected ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return objectMapper;
     }
 

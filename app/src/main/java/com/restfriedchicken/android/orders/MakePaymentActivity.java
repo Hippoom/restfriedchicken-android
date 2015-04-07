@@ -3,7 +3,6 @@ package com.restfriedchicken.android.orders;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,10 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.github.kevinsawicki.http.HttpRequest;
 import com.restfriedchicken.android.R;
 import com.restfriedchicken.android.RestfriedChickenApp;
-import com.restfriedchicken.rest.onlinetxn.MakeOnlineTxnCommand;
 import com.restfriedchicken.rest.onlinetxn.OnlineTxnRepresentation;
 
 public class MakePaymentActivity extends Activity {
@@ -91,42 +88,19 @@ public class MakePaymentActivity extends Activity {
         }
     }
 
-    static class MakePaymentTask extends GetCustomerResourceTask<OnlineTxnRepresentation> {
-        private MakePaymentActivity caller;
-
-        MakePaymentTask(RestfriedChickenApp app, UiCallback<OnlineTxnRepresentation> uiCallback, MakePaymentActivity caller) {
-            super(app, uiCallback);
-            this.caller = caller;
-        }
-
-        @Override
-        protected OnlineTxnRepresentation doInBackground(Void... params) {
-            try {
-
-                MakeOnlineTxnCommand command = new MakeOnlineTxnCommand(caller.getAmount(), caller.getCreditCardNumber(), caller.getCreditCardExpireDate(), caller.getCreditCardCVV2());
-                String body = objectMapper().writeValueAsString(command);
-                String onlineTxn = HttpRequest.post(caller.getLink()).send(body).body();
-                return objectMapper().readValue(onlineTxn, OnlineTxnRepresentation.class);
-            } catch (Exception e) {
-                Log.e("CancelMyOrderTask", e.getMessage(), e);
-                return null;
-            }
-        }
-    }
-
-    private String getCreditCardCVV2() {
+    protected String getCreditCardCVV2() {
         return cvv2Edit.getText().toString();
     }
 
-    private String getCreditCardExpireDate() {
+    protected String getCreditCardExpireDate() {
         return ccExpireDateEdit.getText().toString();
     }
 
-    private String getCreditCardNumber() {
+    protected String getCreditCardNumber() {
         return ccNumberEdit.getText().toString();
     }
 
-    private String getAmount() {
+    protected String getAmount() {
         return amountEdit.getText().toString();
     }
 

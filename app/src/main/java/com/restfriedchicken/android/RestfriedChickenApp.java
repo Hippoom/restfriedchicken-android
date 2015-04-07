@@ -5,13 +5,18 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.util.Log;
 
+import com.restfriedchicken.android.http.HttpModule;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import dagger.ObjectGraph;
+
 public class RestfriedChickenApp extends Application {
 
     private Properties config;
+    private ObjectGraph graph;
 
     @Override
     public void onCreate() {
@@ -27,6 +32,11 @@ public class RestfriedChickenApp extends Application {
         } catch (IOException e) {
             Log.e("RestfriedChickenApp", e.getMessage(), e);
         }
+        this.graph = ObjectGraph.create(new HttpModule());
+    }
+
+    public void inject(Object object) {
+        graph.inject(object);
     }
 
     public String customerServiceBaseUrl() {

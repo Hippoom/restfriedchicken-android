@@ -3,7 +3,6 @@ package com.restfriedchicken.android.orders;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,15 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.github.kevinsawicki.http.HttpRequest;
 import com.restfriedchicken.android.R;
 import com.restfriedchicken.android.RestfriedChickenApp;
-import com.restfriedchicken.rest.Link;
 import com.restfriedchicken.rest.orders.EditOrderCommand;
 import com.restfriedchicken.rest.orders.MyOrderRepresentation;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class DisplayMyOrderActivity extends Activity {
 
@@ -247,53 +241,6 @@ public class DisplayMyOrderActivity extends Activity {
             intent.putExtra("amount_due", order.getAmount());
             intent.putExtra("make_payment_link", order.getLink("payment").getHref());
             caller.startActivityForResult(intent, MakePaymentActivity.REQUEST_CODE_MAKE_PAYMENT);
-        }
-    }
-
-    static class CancelMyOrderTask extends GetCustomerResourceTask<MyOrderRepresentation> {
-        private Link link;
-
-        CancelMyOrderTask(RestfriedChickenApp app, UiCallback<MyOrderRepresentation> uiCallback, Link link) {
-            super(app, uiCallback);
-            this.link = link;
-        }
-
-        @Override
-        protected MyOrderRepresentation doInBackground(Void... params) {
-            try {
-                String order = HttpRequest.delete(link.getHref()).body();
-
-                return objectMapper().readValue(order, MyOrderRepresentation.class);
-            } catch (Exception e) {
-                Log.e("CancelMyOrderTask", e.getMessage(), e);
-                return null;
-            }
-        }
-
-    }
-
-    static class EditOrderTask extends GetCustomerResourceTask<MyOrderRepresentation> {
-        private DisplayMyOrderActivity caller;
-        private EditOrderCommand command;
-        private String link;
-
-        EditOrderTask(RestfriedChickenApp app, UiCallback<MyOrderRepresentation> uiCallback, DisplayMyOrderActivity caller, String link, EditOrderCommand command) {
-            super(app, uiCallback);
-            this.caller = caller;
-            this.command = command;
-            this.link = link;
-        }
-
-        @Override
-        protected MyOrderRepresentation doInBackground(Void... params) {
-            try {
-                String body = objectMapper().writeValueAsString(command);
-                String onlineTxn = HttpRequest.put(link).send(body).body();
-                return objectMapper().readValue(onlineTxn, MyOrderRepresentation.class);
-            } catch (Exception e) {
-                Log.e("CancelMyOrderTask", e.getMessage(), e);
-                return null;
-            }
         }
     }
 

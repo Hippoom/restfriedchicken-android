@@ -32,6 +32,7 @@ proguard/
 
 # config files
 app/src/main/assets/config.properties
+app/config
 
 # mac
 **/.DS_Store
