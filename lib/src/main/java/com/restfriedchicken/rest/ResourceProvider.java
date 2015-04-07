@@ -1,4 +1,4 @@
-package com.restfriedchicken.android.http;
+package com.restfriedchicken.rest;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,11 +7,11 @@ import com.restfriedchicken.rest.orders.OrderResource;
 
 import java.util.Properties;
 
-public class HttpModule {
+public class ResourceProvider {
 
     private Properties config;
 
-    public HttpModule(Properties config) {
+    public ResourceProvider(Properties config) {
         this.config = config;
     }
 

@@ -5,7 +5,7 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.util.Log;
 
-import com.restfriedchicken.android.http.HttpModule;
+import com.restfriedchicken.rest.ResourceProvider;
 import com.restfriedchicken.rest.onlinetxn.OnlineTxnResource;
 import com.restfriedchicken.rest.orders.OrderResource;
 
@@ -16,7 +16,7 @@ import java.util.Properties;
 public class RestfriedChickenApp extends Application {
 
     private Properties config;
-    private HttpModule httpModule;
+    private ResourceProvider resourceProvider;
 
     @Override
     public void onCreate() {
@@ -32,15 +32,15 @@ public class RestfriedChickenApp extends Application {
         } catch (IOException e) {
             Log.e("RestfriedChickenApp", e.getMessage(), e);
         }
-        httpModule = new HttpModule(config);
+        resourceProvider = new ResourceProvider(config);
 
     }
 
     public OrderResource provideOrderResource() {
-        return httpModule.provideObjectResource();
+        return resourceProvider.provideObjectResource();
     }
 
     public OnlineTxnResource provideOnlineTxnResource() {
-        return httpModule.provideOnlineTxnResource();
+        return resourceProvider.provideOnlineTxnResource();
     }
 }
