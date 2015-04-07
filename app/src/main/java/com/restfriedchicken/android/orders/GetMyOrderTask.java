@@ -2,6 +2,7 @@ package com.restfriedchicken.android.orders;
 
 import android.util.Log;
 
+import com.github.kevinsawicki.http.HttpRequest;
 import com.restfriedchicken.android.RestfriedChickenApp;
 import com.restfriedchicken.rest.orders.MyOrderRepresentation;
 
@@ -17,7 +18,8 @@ public class GetMyOrderTask extends GetCustomerResourceTask<MyOrderRepresentatio
     @Override
     protected MyOrderRepresentation doInBackground(Void... params) {
         try {
-            MyOrderRepresentation order = getRestTemplate().getForObject(url, MyOrderRepresentation.class);
+            String body = HttpRequest.get(url).body();
+            MyOrderRepresentation order =  objectMapper().readValue(body, MyOrderRepresentation.class);
             return order;
         } catch (Exception e) {
             Log.e(getLogTag(), e.getMessage(), e);

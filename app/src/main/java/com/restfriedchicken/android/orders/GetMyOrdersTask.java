@@ -2,6 +2,7 @@ package com.restfriedchicken.android.orders;
 
 import android.util.Log;
 
+import com.github.kevinsawicki.http.HttpRequest;
 import com.restfriedchicken.android.RestfriedChickenApp;
 import com.restfriedchicken.rest.orders.MyOrdersRepresentation;
 
@@ -22,8 +23,10 @@ public class GetMyOrdersTask extends GetCustomerResourceTask<MyOrdersRepresentat
     protected MyOrdersRepresentation doInBackground(Void... params) {
         try {
             final String url = customerServiceBaseUrl() + "/1/orders?status=" + statusEq;
-            MyOrdersRepresentation orders = getRestTemplate().getForObject(url, MyOrdersRepresentation.class);
-            return orders;
+
+            String orders = HttpRequest.get(url).body();
+
+            return objectMapper().readValue(orders, MyOrdersRepresentation.class);
         } catch (Exception e) {
             Log.e(getLogTag(), e.getMessage(), e);
         }

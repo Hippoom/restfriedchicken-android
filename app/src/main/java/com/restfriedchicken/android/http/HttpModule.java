@@ -8,9 +8,6 @@ import com.restfriedchicken.android.orders.GetMyOrderTask;
 import com.restfriedchicken.android.orders.GetMyOrdersTask;
 import com.restfriedchicken.android.orders.MakePaymentTask;
 
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -24,20 +21,5 @@ public class HttpModule {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return objectMapper;
     }
-
-    @Provides
-    public MappingJackson2HttpMessageConverter jsonMessageConverter(ObjectMapper objectMapper) {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(objectMapper);
-        return converter;
-    }
-
-    @Provides
-    public RestTemplate restTemplate(MappingJackson2HttpMessageConverter converter) {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(converter);
-        return restTemplate;
-    }
-
 
 }

@@ -5,15 +5,11 @@ import android.os.AsyncTask;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restfriedchicken.android.RestfriedChickenApp;
 
-import org.springframework.web.client.RestTemplate;
-
 import javax.inject.Inject;
 
 public abstract class GetCustomerResourceTask<Result> extends AsyncTask<Void, Void, Result> {
     @Inject
     ObjectMapper objectMapper;
-    @Inject
-    RestTemplate restTemplate;
 
     private RestfriedChickenApp application;
 
@@ -37,10 +33,6 @@ public abstract class GetCustomerResourceTask<Result> extends AsyncTask<Void, Vo
 
     protected String customerServiceBaseUrl() {
         return application.customerServiceBaseUrl();
-    }
-
-    protected RestTemplate getRestTemplate() {
-        return restTemplate;
     }
 
     protected ObjectMapper objectMapper() {
